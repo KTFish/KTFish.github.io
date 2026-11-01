@@ -1,0 +1,1736 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../../02-basic-setup-and-installation/">
+      
+      
+        <link rel="next" href="../latex-table-formatter/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../../assets/mlinpl-conference-10th-edition-logo.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>Overview - ML in PL Workshops</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../../stylesheets/mlinpl.css">
+    
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="red" data-md-color-accent="red">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#path-1-design-your-latex-package-step-by-step" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../.." title="ML in PL Workshops" class="md-header__button md-logo" aria-label="ML in PL Workshops" data-md-component="logo">
+      
+  <img src="../../../assets/mlinpl-conference-10th-edition-logo.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            ML in PL Workshops
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Overview
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="red" data-md-color-accent="red"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="red" data-md-color-accent="red"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="ML in PL Workshops" class="md-nav__button md-logo" aria-label="ML in PL Workshops" data-md-component="logo">
+      
+  <img src="../../../assets/mlinpl-conference-10th-edition-logo.png" alt="logo">
+
+    </a>
+    ML in PL Workshops
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Intro: Fundamental concepts, methodology
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Intro: Fundamental concepts, methodology
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../part-01/01-preamble/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Preamble
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../part-01/package-organization/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Package organization
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../part-01/design-patterns/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Design patterns
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../part-01/instrumentation-audit-for-researchers/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Audit of research codebase
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Practical exercise for participants
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Practical exercise for participants
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../01-preamble/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Preamble
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../02-basic-setup-and-installation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Basic setup
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3_3" id="__nav_3_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Practical exercise (path 1)
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Practical exercise (path 1)
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#motivation-why-an-agentic-latex-workflow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Motivation: why an agentic LaTeX workflow?
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#architecture-overview-and-theory-cross-references" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Architecture overview and theory cross-references
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Architecture overview and theory cross-references">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#architectural-design-patterns-used" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Architectural design patterns used
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#architectural-anti-patterns-avoided" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Architectural anti-patterns avoided
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#setting-up-the-package-repository" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Setting up the package repository
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Setting up the package repository">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#initialize-the-package-repository" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Initialize the package repository
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#declare-external-dependencies" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Declare external dependencies
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#configure-execution-targets" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Configure execution targets
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#host-dependencies" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Host dependencies
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Host dependencies">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#mermaid-cli" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Mermaid CLI
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#latex-compilation-lualatex-latexmk" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        LaTeX compilation (LuaLaTeX + latexmk)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../latex-table-formatter/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Table formatter
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../latex-figure-formatter/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Figure formatter
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../compilation-engine/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Compiler engine
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../latex-compiler/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Compiler agent
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../commands-reference/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Commands reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../compile-pdf/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Compiler skill
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../citations-expert/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Citation reviewer
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../latex-code-expert/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Code reviewer
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../latex-workflow/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Workflow orchestrator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../testing-and-matrix/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Outlook
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../design-your-own-skill/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Practical exercise (path 2)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Further resources and next steps
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Further resources and next steps
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../part-04/02-further-resources/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Further resources
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#motivation-why-an-agentic-latex-workflow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Motivation: why an agentic LaTeX workflow?
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#architecture-overview-and-theory-cross-references" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Architecture overview and theory cross-references
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Architecture overview and theory cross-references">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#architectural-design-patterns-used" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Architectural design patterns used
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#architectural-anti-patterns-avoided" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Architectural anti-patterns avoided
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#setting-up-the-package-repository" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Setting up the package repository
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Setting up the package repository">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#initialize-the-package-repository" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Initialize the package repository
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#declare-external-dependencies" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Declare external dependencies
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#configure-execution-targets" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Configure execution targets
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#host-dependencies" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Host dependencies
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Host dependencies">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#mermaid-cli" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Mermaid CLI
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#latex-compilation-lualatex-latexmk" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        LaTeX compilation (LuaLaTeX + latexmk)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="path-1-design-your-latex-package-step-by-step">Path 1: Design your LaTeX package step by step<a class="headerlink" href="#path-1-design-your-latex-package-step-by-step" title="Permanent link">&para;</a></h1>
+<p>In this exercise, we build an APM package, similar to <a href="https://github.com/KTFish/latex-skills">latex-skills</a>. The goal is to separate the LaTeX workflow into clear specialist skills and an orchestrator that keeps the primary conversation session compact.</p>
+<p>By the end of the chapter, you will understand how a LaTeX package routes figure and table edits, Mermaid exports, prose polishing, and PDF compilation without pooling all rules into a single monolithic skill.</p>
+<h3 id="motivation-why-an-agentic-latex-workflow">Motivation: why an agentic LaTeX workflow?<a class="headerlink" href="#motivation-why-an-agentic-latex-workflow" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Repetitive toil:</strong> Academic writing repeatedly cycles through table formatting, figure insertion, citation checks, and compilation failures.</li>
+<li><strong>Standardized conventions:</strong> Conference templates are consistent enough to encode as reusable execution rules.</li>
+</ul>
+<h2 id="architecture-overview-and-theory-cross-references">Architecture overview and theory cross-references<a class="headerlink" href="#architecture-overview-and-theory-cross-references" title="Permanent link">&para;</a></h2>
+<p>A brittle package mixes routing, editing rules, and compiler output in one prompt. In this exercise, our package separates those concerns into a orchestrator and specialist skills, implementing the separation of concerns discussed in <a href="../../../part-01/package-organization/">the package organization guide</a>.</p>
+<p>After completing the exercise we should end up with the following structure:</p>
+<pre class="mermaid"><code>graph TD
+
+    subgraph OtherSkills["other packages"]
+        subgraph llm-text-rephrasing-skills["llm-text-rephrasing-skills v0.2.0"]
+          llm-text-rephrasing
+        end
+
+        subgraph MermaidSkills["mermaid-skills v0.2.0"]
+            draw-mermaid["draw-mermaid"]
+            export-mermaid["export-mermaid"]
+        end
+    end
+
+    draw-mermaid -- "Diagrams" --&gt; Entrypoint
+    export-mermaid -- "Rendered SVG/PNG" --&gt; Entrypoint
+    llm-text-rephrasing -- "Handle language" --&gt; Entrypoint
+
+    subgraph Entrypoint["entrypoint skill: latex-workflow"]
+
+
+    end
+
+    subgraph Package["latex-skills package v0.3.0"]
+        subgraph Agents
+        direction TD
+        citation-expert
+        latex-code-expert
+        latex-compiler
+      end
+      subgraph Skills
+        direction TD
+        latex-table-formatter
+        latex-figure-formatter
+        compile-pdf
+      end
+    end
+
+    Entrypoint --&gt; Package
+    Package --&gt; Doc["Your .tex doc!"]
+
+    Doc --&gt; PDF
+
+    classDef agent fill:#f9f9f9,stroke:#333,stroke-width:1.5px</code></pre>
+<h3 id="architectural-design-patterns-used">Architectural design patterns used<a class="headerlink" href="#architectural-design-patterns-used" title="Permanent link">&para;</a></h3>
+<p>Before authoring primitives, review how the package maps to the patterns and anti-patterns defined in <a href="../../../part-01/design-patterns/">the architectural design patterns guide</a>:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Pattern name</th>
+<th style="text-align: left;">Where used?</th>
+<th style="text-align: left;">Why used?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong><code>R1. SPLIT</code></strong></td>
+<td style="text-align: left;">Package architecture across <a href="#setting-up-the-package-repository">latex-skills</a></td>
+<td style="text-align: left;">Decomposes a monolithic prompt into independent specialist skills and an orchestrator.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong><code>S3. ORCHESTRATOR FACADE</code></strong></td>
+<td style="text-align: left;"><a href="../latex-workflow/"><code>latex-workflow</code></a></td>
+<td style="text-align: left;">Exposes a single entrypoint while coordinating multi-step execution behind the scenes.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong><code>B2. CONDITIONAL DISPATCH</code></strong></td>
+<td style="text-align: left;"><a href="../latex-workflow/#file-targets-and-relation"><code>latex-workflow</code> dispatch table</a></td>
+<td style="text-align: left;">Classifies intent to load only the relevant skill instead of loading all rules at once.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong><code>C3. THREAD SPAWN</code></strong></td>
+<td style="text-align: left;"><a href="../compile-pdf/"><code>compile-pdf</code></a></td>
+<td style="text-align: left;">Runs noisy compilation in an isolated child thread that returns only a compact receipt.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong><code>C1. LAZY ASSET</code></strong></td>
+<td style="text-align: left;"><a href="../latex-table-formatter/"><code>latex-table-formatter</code></a> and <a href="../latex-figure-formatter/"><code>latex-figure-formatter</code></a></td>
+<td style="text-align: left;">Stores LaTeX templates in external asset files, loading them into context only on demand.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong><code>S7. DETERMINISTIC TOOL BRIDGE</code></strong></td>
+<td style="text-align: left;"><a href="../latex-compiler/"><code>latex-compiler</code></a></td>
+<td style="text-align: left;">Bridges agent intent to deterministic CLI commands (<code>latexmk</code>, <code>lualatex</code>)</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong><code>S4. VALIDATION DECORATOR</code></strong></td>
+<td style="text-align: left;"><a href="../latex-compiler/#mechanics-and-execution-rules"><code>latex-compiler</code> receipt verification</a></td>
+<td style="text-align: left;">Enforces deterministic pass/fail gates and concise error digests before returning to the parent.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong><code>C2. PERSONA PRELOAD</code></strong></td>
+<td style="text-align: left;"><a href="../citations-expert/"><code>citations-expert</code></a>, <a href="../latex-code-expert/"><code>latex-code-expert</code></a>, and <a href="../latex-compiler/"><code>latex-compiler</code></a></td>
+<td style="text-align: left;">Scopes execution roles with specialized instructions and restricted toolsets for each persona.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="architectural-anti-patterns-avoided">Architectural anti-patterns avoided<a class="headerlink" href="#architectural-anti-patterns-avoided" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Anti-pattern name</th>
+<th style="text-align: left;">Where avoided?</th>
+<th style="text-align: left;">Why avoided?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong><code>GOD MODULE</code></strong></td>
+<td style="text-align: left;">Across the overall package structure</td>
+<td style="text-align: left;">Prevents combining routing, formatting, and compiling in one unmaintainable prompt.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong><code>ALL-BRANCHES-LOADED</code></strong></td>
+<td style="text-align: left;">In <a href="../latex-workflow/"><code>latex-workflow</code></a></td>
+<td style="text-align: left;">Prevents inflating prompt tokens with rules for all skills when only one is required.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong><code>FAN-OUT-IN-ONE-CONTEXT</code></strong></td>
+<td style="text-align: left;">In <a href="../compile-pdf/"><code>compile-pdf</code></a></td>
+<td style="text-align: left;">Prevents flooding the parent conversation with tokens of verbose compiler log noise.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong><code>EAGER BLOAT</code></strong></td>
+<td style="text-align: left;">In <a href="../latex-table-formatter/"><code>latex-table-formatter</code></a></td>
+<td style="text-align: left;">Prevents inlining large LaTeX template blocks directly inside <code>SKILL.md</code> bodies.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong><code>STUB ORCHESTRATION</code></strong></td>
+<td style="text-align: left;">In <a href="../latex-workflow/"><code>latex-workflow</code></a></td>
+<td style="text-align: left;">Avoids a pass-through wrapper by introducing interlock, gate, synthesis and doesn't block direct skill invocations.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong><code>TOOLLESS ASSERTION</code></strong></td>
+<td style="text-align: left;">In <a href="../latex-compiler/"><code>latex-compiler</code></a></td>
+<td style="text-align: left;">Prevents hallucinating build status without actually executing the compiler CLI.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong><code>WRAPPING WITHOUT BLOCKING</code></strong></td>
+<td style="text-align: left;">In <a href="../latex-compiler/#mechanics-and-execution-rules"><code>latex-compiler</code> diagnostics</a></td>
+<td style="text-align: left;">Halts downstream tasks immediately upon build errors instead of proceeding silently.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="setting-up-the-package-repository">Setting up the package repository<a class="headerlink" href="#setting-up-the-package-repository" title="Permanent link">&para;</a></h2>
+<h3 id="initialize-the-package-repository">Initialize the package repository<a class="headerlink" href="#initialize-the-package-repository" title="Permanent link">&para;</a></h3>
+<p>Following the APM workflow established in <a href="../../02-basic-setup-and-installation/">the basic setup and installation walkthrough</a>, create a directory named <code>latex-skills</code>:</p>
+<div class="highlight"><pre><span></span><code>mkdir<span class="w"> </span>latex-skills<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nb">cd</span><span class="w"> </span>latex-skills
+</code></pre></div>
+<p>Initialize it with APM:</p>
+<div class="highlight"><pre><span></span><code>apm<span class="w"> </span>init
+</code></pre></div>
+<h3 id="declare-external-dependencies">Declare external dependencies<a class="headerlink" href="#declare-external-dependencies" title="Permanent link">&para;</a></h3>
+<p>The canonical package does not rebuild Mermaid rendering or rephrasing logic from scratch. It reuses external APM packages and keeps its own package focused on LaTeX orchestration and formatting, aligning with the composability principles in <a href="../../../part-01/package-organization/">the package organization guide</a>:</p>
+<div class="highlight"><pre><span></span><code>apm<span class="w"> </span>install<span class="w"> </span>KTFish/llm-text-rephrasing-skills#v0.2.0
+apm<span class="w"> </span>install<span class="w"> </span>KTFish/mermaid-skills#v0.2.0
+</code></pre></div>
+<p>This yields an <code>apm.yml</code> configuration:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">latex-skills</span>
+<span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.1.0</span>
+<span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Skills for efficient LaTeX document development.</span>
+<span class="nt">targets</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">copilot</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">gemini</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">antigravity</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">claude</span>
+<span class="nt">dependencies</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">apm</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">KTFish/llm-text-rephrasing-skills#v0.2.0</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">KTFish/mermaid-skills#v0.2.0</span>
+<span class="w">  </span><span class="nt">mcp</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[]</span>
+<span class="nt">includes</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">auto</span>
+</code></pre></div>
+<p>The package name and the exposed skill name can differ: <code>KTFish/llm-text-rephrasing-skills</code> exposes the skill named <code>llm-text-rephrasing</code>, while <code>mermaid-skills</code> contributes both <code>draw-mermaid</code> and <code>export-mermaid</code>.</p>
+<div class="admonition info">
+<p class="admonition-title">Primitive relation: external packages</p>
+<p>External dependencies like <code>KTFish/mermaid-skills</code> and <code>KTFish/llm-text-rephrasing-skills</code> illustrate the <code>external package</code> relation type. Rather than duplicating diagram rendering or tone auditing in <code>latex-skills</code>, the package imports them as pinned upstream dependencies.</p>
+</div>
+<h3 id="configure-execution-targets">Configure execution targets<a class="headerlink" href="#configure-execution-targets" title="Permanent link">&para;</a></h3>
+<p>As discussed in <a href="../../../part-01/package-organization/">the package organization guide</a>, the <code>targets</code> field determines where APM integrates primitives across different agent harnesses. <sup id="fnref:1"><a class="footnote-ref" href="#fn:1">1</a></sup></p>
+<div class="highlight"><pre><span></span><code><span class="nt">targets</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">copilot</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">gemini</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">antigravity</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">claude</span>
+</code></pre></div>
+<p>Running <code>apm install</code> then deploys primitives into target-specific locations, such as <code>.agents/skills/</code> for Antigravity and <code>.github/skills/</code> for Copilot.</p>
+<p>We recommend starting with a single target (e.g. the harness you use most frequently) to avoid confusion. More targets can always be added later.</p>
+<h3 id="host-dependencies">Host dependencies<a class="headerlink" href="#host-dependencies" title="Permanent link">&para;</a></h3>
+<div class="admonition warning">
+<p class="admonition-title">In case of installation issues</p>
+<p>In case of installation issues skip this step, as it is not the most important step to understand the core concepts relevant for the workshops. Installation of system level dependencies (latex, mermaid) can be finished latter on.</p>
+</div>
+<h4 id="mermaid-cli">Mermaid CLI<a class="headerlink" href="#mermaid-cli" title="Permanent link">&para;</a></h4>
+<p>Install <a href="https://github.com/mermaid-js/mermaid-cli">Mermaid CLI</a> to compile and render Mermaid diagrams, especially <code>.mmd</code> files converted to <code>.pdf</code> or <code>.svg</code>:</p>
+<p>Mac / Linux:
+<div class="highlight"><pre><span></span><code>brew<span class="w"> </span>install<span class="w"> </span>mermaid-cli
+</code></pre></div></p>
+<p>Windows:
+<div class="highlight"><pre><span></span><code>npm<span class="w"> </span>install<span class="w"> </span>-g<span class="w"> </span>@mermaid-js/mermaid-cli
+</code></pre></div></p>
+<h4 id="latex-compilation-lualatex-latexmk">LaTeX compilation (LuaLaTeX + latexmk)<a class="headerlink" href="#latex-compilation-lualatex-latexmk" title="Permanent link">&para;</a></h4>
+<p>Mac:
+<div class="highlight"><pre><span></span><code>brew<span class="w"> </span>install<span class="w"> </span>--cask<span class="w"> </span>mactex
+</code></pre></div></p>
+<p>Linux:
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>apt-get<span class="w"> </span>install<span class="w"> </span>texlive-full<span class="w"> </span>latexmk
+</code></pre></div></p>
+<p>Windows:
+<div class="highlight"><pre><span></span><code>winget<span class="w"> </span>install<span class="w"> </span>MiKTeX.MiKTeX
+</code></pre></div></p>
+<div class="footnote">
+<hr />
+<ol>
+<li id="fn:1">
+<p>When initializing a package, APM prompts for target platforms. While environments like <code>copilot</code>, <code>gemini</code>, and <code>claude</code> can be selected during interactive initialization, configure <code>antigravity</code> by adding it directly to the <code>targets</code> list in <code>apm.yml</code>:&#160;<a class="footnote-backref" href="#fnref:1" title="Jump back to footnote 1 in the text">&#8617;</a></p>
+</li>
+</ol>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Footer" >
+        
+          
+          <a href="../../02-basic-setup-and-installation/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Basic setup">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                Basic setup
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../latex-table-formatter/" class="md-footer__link md-footer__link--next" aria-label="Next: Table formatter">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              <div class="md-ellipsis">
+                Table formatter
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../..", "features": ["navigation.sections", "navigation.expand", "navigation.top", "navigation.footer", "search.suggest", "search.highlight", "content.code.copy"], "search": "../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+        <script src="../../../javascripts/mathjax.js"></script>
+      
+        <script src="https://unpkg.com/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  </body>
+</html>
