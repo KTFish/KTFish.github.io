@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Jan Karaś — Personal Website</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Patrick+Hand&display=swap');
+
+    :root {
+      --ink: #1a1a1a;
+      --paper: #fbf9f4;
+      --accent-red: #e03131;
+      --muted: #555555;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      min-height: 100vh;
+      background-color: var(--paper);
+      color: var(--ink);
+      font-family: 'Patrick Hand', cursive, sans-serif;
+      font-size: 20px;
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+      background-image:
+        radial-gradient(#d4cfc3 1.2px, transparent 1.2px),
+        radial-gradient(#e5dfd3 1px, var(--paper) 1px);
+      background-size: 28px 28px;
+      background-position: 0 0, 14px 14px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 30px 20px;
+    }
+
+    .main-card {
+      max-width: 620px;
+      width: 100%;
+      background: #ffffff;
+      border: 2px solid var(--ink);
+      border-radius: 255px 15px 225px 15px/15px 225px 15px 255px;
+      box-shadow: 3px 4px 0px var(--ink);
+      padding: 36px 32px 30px;
+      position: relative;
+    }
+
+    .tape-strip {
+      position: absolute;
+      top: -12px;
+      left: 50%;
+      transform: translateX(-50%) rotate(-1deg);
+      width: 110px;
+      height: 24px;
+      background: rgba(254, 240, 138, 0.7);
+      border: 1px dashed rgba(180, 83, 9, 0.35);
+    }
+
+    h1.name {
+      font-family: 'Caveat', cursive;
+      font-size: 40px;
+      line-height: 1.1;
+      color: var(--accent-red);
+      margin-bottom: 2px;
+    }
+
+    .role-subtitle {
+      font-size: 19px;
+      color: var(--muted);
+      margin-bottom: 20px;
+    }
+
+    .bio {
+      font-size: 20px;
+      color: var(--ink);
+      line-height: 1.55;
+      margin-bottom: 28px;
+    }
+
+    .section-label {
+      font-family: 'Caveat', cursive;
+      font-size: 22px;
+      color: var(--muted);
+      margin-bottom: 12px;
+    }
+
+    .links-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+
+    .sketch-btn {
+      font-family: 'Patrick Hand', cursive;
+      font-size: 19px;
+      background: #ffffff;
+      border: 2px solid var(--ink);
+      border-radius: 255px 15px 225px 15px/15px 225px 15px 255px;
+      padding: 10px 18px;
+      cursor: pointer;
+      box-shadow: 2px 3px 0px var(--ink);
+      transition: all 0.15s ease;
+      color: var(--ink);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .sketch-btn:hover {
+      transform: translate(-1px, -1px);
+      box-shadow: 3px 4px 0px var(--ink);
+      background: #fff9db;
+    }
+
+    .sketch-btn:active {
+      transform: translate(1px, 1px);
+      box-shadow: 1px 1px 0px var(--ink);
+    }
+
+    .sketch-btn.primary {
+      background: #fee2e2;
+      border-color: var(--accent-red);
+      color: var(--accent-red);
+      font-weight: bold;
+    }
+
+    .sketch-btn.primary:hover {
+      background: #fecaca;
+    }
+
+    .social-links {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      padding-top: 18px;
+      border-top: 1.5px dashed #e5dfd3;
+    }
+
+    .social-btn {
+      font-size: 16px;
+      color: var(--muted);
+      text-decoration: none;
+      padding: 5px 12px;
+      border: 1.5px solid #bbb;
+      border-radius: 255px 10px 225px 10px/10px 225px 10px 255px;
+      background: #fafafa;
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      transition: all 0.15s ease;
+    }
+
+    .social-btn svg {
+      width: 16px;
+      height: 16px;
+      fill: currentColor;
+      flex-shrink: 0;
+      display: block;
+    }
+
+    .social-btn:hover {
+      color: var(--ink);
+      border-color: var(--ink);
+      background: #fff;
+    }
+
+    footer.site-footer {
+      margin-top: 20px;
+      font-size: 15px;
+      color: var(--muted);
+      text-align: center;
+    }
+
+    @media (max-width: 480px) {
+      .main-card {
+        padding: 28px 20px 22px;
+      }
+
+      h1.name {
+        font-size: 34px;
+      }
+
+      .bio {
+        font-size: 18px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <main class="main-card">
+    <div class="tape-strip"></div>
+
+    <h1 class="name">Jan Karaś</h1>
+    <p class="role-subtitle">AI Scientist & ML Engineer</p>
+
+    <p class="bio">
+      Founder of the student conference “CAIAK: Conference, AI and Kayaking”, the only conference in Poland mixing
+      students, AI and kayaking in one formula. Privately a hiking and biking enthusiast.
+    </p>
+
+    <div class="section-label">Projects & Guides:</div>
+
+    <div class="links-list">
+      <a href="caiak.html" class="sketch-btn primary">
+        <span>🛶 CAIAK: Conference, AI and Kayaking</span>
+        <span>↗</span>
+      </a>
+
+      <a href="polish-tech-events.html" class="sketch-btn">
+        <span>🇵🇱 Map of Polish tech events</span>
+        <span>↗</span>
+      </a>
+    </div>
+
+    <div class="social-links">
+      <a href="https://mastodon.social/@jankaras" target="_blank" rel="me noopener noreferrer" class="social-btn">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16" aria-hidden="true">
+          <path d="M11.19 12.195c2.016-.24 3.77-1.475 3.99-2.603.348-1.778.32-4.339.32-4.339 0-3.47-2.286-4.488-2.286-4.488C12.062.238 10.083.017 8.027 0h-.05C5.92.017 3.942.238 2.79.765c0 0-2.285 1.017-2.285 4.488l-.002.662c-.004.64-.007 1.35.011 2.091.083 3.394.626 6.74 3.78 7.57 1.454.383 2.703.463 3.709.408 1.823-.1 2.847-.647 2.847-.647l-.06-1.317s-1.303.41-2.767.36c-1.45-.05-2.98-.156-3.215-1.928a4 4 0 0 1-.033-.496s1.424.346 3.228.428c1.103.05 2.137-.064 3.188-.189zm1.613-2.47H11.13v-4.08c0-.859-.364-1.295-1.091-1.295-.804 0-1.207.517-1.207 1.541v2.233H7.168V5.89c0-1.024-.403-1.541-1.207-1.541-.727 0-1.091.436-1.091 1.296v4.079H3.197V5.522q0-1.288.66-2.046c.456-.505 1.052-.764 1.793-.764.856 0 1.504.328 1.933.983L8 4.39l.417-.695c.429-.655 1.077-.983 1.934-.983.74 0 1.336.259 1.791.764q.662.757.661 2.046z"/>
+        </svg>
+        <span>Mastodon</span>
+      </a>
+      <a href="https://github.com/KTFish" target="_blank" rel="noopener noreferrer" class="social-btn">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16" aria-hidden="true">
+          <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8"/>
+        </svg>
+        <span>GitHub</span>
+      </a>
+      <a href="https://www.linkedin.com/company/106970398/" target="_blank" rel="noopener noreferrer"
+        class="social-btn">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16" aria-hidden="true">
+          <path d="M0 1.146C0 .513.526 0 1.175 0h13.65C15.474 0 16 .513 16 1.146v13.708c0 .633-.526 1.146-1.175 1.146H1.175C.526 16 0 15.487 0 14.854zm4.943 12.248V6.169H2.542v7.225zm-1.2-8.212c.837 0 1.358-.554 1.358-1.248-.015-.709-.52-1.248-1.342-1.248S2.4 3.226 2.4 3.934c0 .694.521 1.248 1.327 1.248zm4.908 8.212V9.359c0-.216.016-.432.08-.586.173-.431.568-.878 1.232-.878.869 0 1.216.662 1.216 1.634v3.865h2.401V9.25c0-2.22-1.184-3.252-2.764-3.252-1.274 0-1.845.7-2.165 1.193v.025h-.016l.016-.025V6.169h-2.4c.03.678 0 7.225 0 7.225z"/>
+        </svg>
+        <span>CAIAK LinkedIn</span>
+      </a>
+      <a href="https://www.linkedin.com/in/jan-kara%C5%9B-3b4025229" target="_blank" rel="noopener noreferrer"
+        class="social-btn">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16" aria-hidden="true">
+          <path d="M0 1.146C0 .513.526 0 1.175 0h13.65C15.474 0 16 .513 16 1.146v13.708c0 .633-.526 1.146-1.175 1.146H1.175C.526 16 0 15.487 0 14.854zm4.943 12.248V6.169H2.542v7.225zm-1.2-8.212c.837 0 1.358-.554 1.358-1.248-.015-.709-.52-1.248-1.342-1.248S2.4 3.226 2.4 3.934c0 .694.521 1.248 1.327 1.248zm4.908 8.212V9.359c0-.216.016-.432.08-.586.173-.431.568-.878 1.232-.878.869 0 1.216.662 1.216 1.634v3.865h2.401V9.25c0-2.22-1.184-3.252-2.764-3.252-1.274 0-1.845.7-2.165 1.193v.025h-.016l.016-.025V6.169h-2.4c.03.678 0 7.225 0 7.225z"/>
+        </svg>
+        <span>LinkedIn</span>
+      </a>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <p>Jan Karaś • 2026</p>
+  </footer>
+
+</body>
+
+</html>

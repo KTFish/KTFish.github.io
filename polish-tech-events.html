@@ -1,0 +1,1080 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Polish Tech Events — Curated Guide</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Patrick+Hand&display=swap');
+
+    :root {
+      --ink: #1a1a1a;
+      --paper: #fbf9f4;
+      --paper-card: #ffffff;
+      --accent-red: #e03131;
+      --muted: #555555;
+      --highlight: #fef08a;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      width: 100%;
+      min-height: 100vh;
+      background-color: var(--paper);
+      color: var(--ink);
+      font-family: 'Patrick Hand', cursive, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      background-image:
+        radial-gradient(#d4cfc3 1.2px, transparent 1.2px),
+        radial-gradient(#e5dfd3 1px, var(--paper) 1px);
+      background-size: 28px 28px;
+      background-position: 0 0, 14px 14px;
+      padding-bottom: 60px;
+    }
+
+    /* Minimal Top Header */
+    header.site-header {
+      position: sticky;
+      top: 0;
+      left: 0;
+      right: 0;
+      padding: 14px 28px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 100;
+      background: rgba(251, 249, 244, 0.95);
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+      border-bottom: 2px solid var(--ink);
+      box-shadow: 0 2px 8px rgba(26, 26, 26, 0.05);
+    }
+
+    .title-group {
+      display: flex;
+      flex-direction: column;
+    }
+
+    h1.main-title {
+      font-family: 'Caveat', cursive;
+      font-size: 30px;
+      color: var(--accent-red);
+      line-height: 1.1;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .subpage-subtitle {
+      font-size: 16px;
+      color: var(--muted);
+      margin-top: 2px;
+    }
+
+    /* Hand-drawn sketchy button */
+    .sketch-btn {
+      font-family: 'Patrick Hand', cursive;
+      font-size: 18px;
+      background: #ffffff;
+      border: 2px solid var(--ink);
+      border-radius: 255px 15px 225px 15px/15px 225px 15px 255px;
+      padding: 6px 16px;
+      cursor: pointer;
+      box-shadow: 2px 3px 0px var(--ink);
+      transition: all 0.15s ease;
+      color: var(--ink);
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .sketch-btn:hover {
+      transform: translate(-1px, -1px);
+      box-shadow: 3px 4px 0px var(--ink);
+      background: #fff9db;
+    }
+
+    .sketch-btn:active {
+      transform: translate(1px, 1px);
+      box-shadow: 1px 1px 0px var(--ink);
+    }
+
+    .sketch-btn.primary {
+      background: #fee2e2;
+      border-color: var(--accent-red);
+      color: var(--accent-red);
+      font-weight: bold;
+    }
+
+    .sketch-btn.primary:hover {
+      background: #fecaca;
+    }
+
+    /* Main Container */
+    .content-container {
+      max-width: 820px;
+      margin: 0 auto;
+      padding: 30px 20px 40px;
+    }
+
+    /* Minimal Intro Note */
+    .intro-note {
+      background: #ffffff;
+      border: 2px solid var(--ink);
+      border-radius: 255px 14px 225px 14px/14px 225px 14px 255px;
+      box-shadow: 3px 4px 0px var(--ink);
+      padding: 18px 24px;
+      margin-bottom: 24px;
+      position: relative;
+    }
+
+    .tape-strip {
+      position: absolute;
+      top: -10px;
+      left: 28px;
+      width: 80px;
+      height: 20px;
+      background: rgba(254, 240, 138, 0.85);
+      border: 1px dashed rgba(202, 138, 4, 0.6);
+      transform: rotate(-2deg);
+    }
+
+    .intro-note p {
+      font-size: 19px;
+      line-height: 1.4;
+      color: #333333;
+    }
+
+    /* Search bar */
+    .search-wrapper {
+      margin-bottom: 24px;
+    }
+
+    .search-input {
+      width: 100%;
+      font-family: 'Patrick Hand', cursive;
+      font-size: 18px;
+      padding: 8px 16px;
+      border: 2px solid var(--ink);
+      border-radius: 255px 12px 225px 14px/14px 225px 12px 255px;
+      background: #ffffff;
+      box-shadow: 2px 2px 0px var(--ink);
+      outline: none;
+      transition: all 0.15s ease;
+    }
+
+    .search-input:focus {
+      background: #fffde7;
+      box-shadow: 3px 3px 0px var(--ink);
+    }
+
+    /* Events List */
+    .events-feed {
+      display: flex;
+      flex-direction: column;
+      gap: 26px;
+    }
+
+    .event-card {
+      background: var(--paper-card);
+      border: 2px solid var(--ink);
+      border-radius: 255px 16px 225px 16px/16px 225px 16px 255px;
+      box-shadow: 4px 5px 0px var(--ink);
+      padding: 24px 28px;
+      position: relative;
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    .event-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 5px 7px 0px var(--ink);
+    }
+
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+      padding-bottom: 12px;
+      margin-bottom: 14px;
+      border-bottom: 2px dashed rgba(26, 26, 26, 0.2);
+    }
+
+    .event-name {
+      font-family: 'Caveat', cursive;
+      font-size: 32px;
+      color: var(--ink);
+      line-height: 1.1;
+    }
+
+    .card-badges {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 2px 10px;
+      font-size: 15px;
+      border: 1.5px solid var(--ink);
+      border-radius: 255px 12px 225px 14px/14px 225px 12px 255px;
+      background: #e0f2fe;
+      color: #0369a1;
+      font-weight: bold;
+      box-shadow: 1.5px 1.5px 0px var(--ink);
+    }
+
+    .badge-hackathon {
+      background: #ede9fe;
+      color: #6d28d9;
+    }
+
+    /* Structured Details List */
+    .details-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      font-size: 18px;
+      line-height: 1.45;
+      color: #2b2b2b;
+      margin-bottom: 18px;
+    }
+
+    .detail-item {
+      display: flex;
+      align-items: baseline;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .detail-label {
+      font-weight: bold;
+      color: var(--ink);
+      text-transform: capitalize;
+    }
+
+    .detail-value {
+      color: #2f2f2f;
+    }
+
+    .detail-note {
+      font-size: 17px;
+      color: #555;
+    }
+
+    .event-icon {
+      margin-right: 6px;
+      font-size: 26px;
+      display: inline-block;
+      vertical-align: middle;
+    }
+
+    .event-about-content {
+      padding: 14px 18px;
+      background: rgba(254, 249, 231, 0.6);
+      border: 1.5px dashed rgba(26, 26, 26, 0.35);
+      border-radius: 255px 12px 225px 12px/12px 225px 12px 255px;
+      font-size: 17.5px;
+      line-height: 1.5;
+      color: #2b2b2b;
+    }
+
+    /* Involved Companies Panel & Layout */
+    .panels-container {
+      display: flex;
+      gap: 14px;
+      align-items: flex-start;
+      margin-top: 10px;
+      width: 100%;
+    }
+
+    .panels-container>.event-companies-content,
+    .panels-container>.event-about-content,
+    .panels-container>.event-tasks-content {
+      flex: 1 1 0;
+      min-width: 0;
+    }
+
+    .event-tasks-content {
+      padding: 14px 18px;
+      background: rgba(254, 243, 199, 0.55);
+      border: 1.5px dashed rgba(26, 26, 26, 0.35);
+      border-radius: 255px 12px 225px 12px/12px 225px 12px 255px;
+      font-size: 17px;
+      line-height: 1.5;
+      color: #2b2b2b;
+    }
+
+    .tasks-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px;
+      padding-bottom: 8px;
+      margin-bottom: 12px;
+      border-bottom: 1.5px dashed rgba(26, 26, 26, 0.2);
+    }
+
+    .tasks-title {
+      font-family: 'Caveat', cursive;
+      font-size: 24px;
+      font-weight: bold;
+      color: var(--ink);
+    }
+
+    .tasks-year-group {
+      margin-bottom: 14px;
+    }
+
+    .tasks-year-group:last-child {
+      margin-bottom: 0;
+    }
+
+    .tasks-year-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 6px;
+    }
+
+    .tasks-year-note {
+      font-size: 15.5px;
+      color: #4b4b4b;
+      margin: 2px 0 8px;
+      line-height: 1.4;
+    }
+
+    .tasks-year-note a {
+      color: var(--ink);
+      text-decoration: underline;
+    }
+
+    .tasks-year-note a:hover {
+      color: var(--accent-red);
+    }
+
+    .tasks-year-heading {
+      font-family: 'Caveat', cursive;
+      font-size: 21px;
+      font-weight: bold;
+      color: var(--accent-red);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .tasks-year-repo {
+      font-family: 'Patrick Hand', cursive;
+      font-size: 15px;
+      color: var(--ink);
+      text-decoration: underline;
+    }
+
+    .tasks-year-repo:hover {
+      color: var(--accent-red);
+    }
+
+    .tasks-list {
+      list-style-type: none;
+      padding-left: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .task-item {
+      padding: 6px 10px;
+      background: rgba(255, 255, 255, 0.75);
+      border: 1px dashed rgba(26, 26, 26, 0.25);
+      border-radius: 255px 8px 225px 8px/8px 225px 8px 255px;
+      font-size: 16.5px;
+      line-height: 1.35;
+    }
+
+    .task-topic {
+      font-weight: bold;
+      color: var(--ink);
+    }
+
+    .task-desc {
+      color: #3b3b3b;
+    }
+
+    .event-companies-content {
+      padding: 14px 18px;
+      background: rgba(240, 249, 255, 0.7);
+      border: 1.5px dashed rgba(26, 26, 26, 0.35);
+      border-radius: 255px 12px 225px 12px/12px 225px 12px 255px;
+      font-size: 17.5px;
+      line-height: 1.5;
+      color: #2b2b2b;
+    }
+
+    .companies-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px;
+      padding-bottom: 8px;
+      margin-bottom: 10px;
+      border-bottom: 1.5px dashed rgba(26, 26, 26, 0.2);
+    }
+
+    .companies-title {
+      font-family: 'Caveat', cursive;
+      font-size: 24px;
+      font-weight: bold;
+      color: var(--ink);
+    }
+
+    .companies-legend {
+      display: flex;
+      gap: 6px;
+      font-size: 14px;
+    }
+
+    .legend-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 2px 8px;
+      border-radius: 255px 8px 225px 8px/8px 225px 8px 255px;
+      border: 1.5px solid var(--ink);
+      font-weight: bold;
+      box-shadow: 1px 1px 0px var(--ink);
+    }
+
+    .legend-chip.sponsor {
+      background: #e0f2fe;
+      color: #0369a1;
+    }
+
+    .legend-chip.partner {
+      background: #dcfce7;
+      color: #15803d;
+    }
+
+    .companies-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .company-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 3px 9px;
+      background: #ffffff;
+      border: 1.5px solid var(--ink);
+      border-radius: 255px 10px 225px 10px/10px 225px 10px 255px;
+      box-shadow: 1.5px 1.5px 0px var(--ink);
+      font-size: 16px;
+      line-height: 1.3;
+      cursor: default;
+      transition: transform 0.1s ease, box-shadow 0.1s ease;
+    }
+
+    .company-pill:hover {
+      transform: translateY(-1px);
+      box-shadow: 2.5px 2.5px 0px var(--ink);
+    }
+
+    .company-pill.is-sponsor {
+      background: #f0f9ff;
+    }
+
+    .company-pill.is-partner {
+      background: #f0fdf4;
+    }
+
+    .pill-badge {
+      font-size: 12px;
+      font-weight: bold;
+      padding: 1px 6px;
+      border-radius: 6px;
+      border: 1px solid currentColor;
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+    }
+
+    .company-pill.is-sponsor .pill-badge {
+      background: #e0f2fe;
+      color: #0369a1;
+      border-color: #7dd3fc;
+    }
+
+    .company-pill.is-partner .pill-badge {
+      background: #dcfce7;
+      color: #15803d;
+      border-color: #86efac;
+    }
+
+    .companies-note {
+      margin-top: 12px;
+      padding-top: 8px;
+      border-top: 1px dashed rgba(26, 26, 26, 0.2);
+      font-size: 15px;
+      color: var(--muted);
+      line-height: 1.4;
+    }
+
+    .companies-note a {
+      color: var(--ink);
+      font-weight: bold;
+      text-decoration: underline;
+    }
+
+    .companies-note a:hover {
+      color: var(--accent-red);
+    }
+
+    @media (max-width: 768px) {
+      .panels-container {
+        flex-direction: column;
+      }
+    }
+
+    .about-p {
+      margin-bottom: 8px;
+    }
+
+    .about-p:last-child {
+      margin-bottom: 0;
+    }
+
+    /* Single link action row */
+    .card-footer {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      padding-top: 14px;
+      border-top: 1.5px dashed rgba(26, 26, 26, 0.15);
+    }
+
+    .footer-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    /* Empty search state */
+    .empty-state {
+      background: #ffffff;
+      border: 2px dashed var(--ink);
+      border-radius: 14px;
+      padding: 30px;
+      text-align: center;
+      display: none;
+      font-size: 18px;
+    }
+
+    /* Footer */
+    footer.site-footer {
+      max-width: 820px;
+      margin: 40px auto 0;
+      padding: 16px 20px;
+      text-align: center;
+      border-top: 1.5px dashed rgba(26, 26, 26, 0.25);
+      font-size: 16px;
+      color: var(--muted);
+    }
+
+    @media (max-width: 600px) {
+      header.site-header {
+        padding: 12px 16px;
+      }
+
+      .content-container {
+        padding: 20px 14px 30px;
+      }
+
+      .event-card {
+        padding: 18px 18px;
+      }
+
+      .event-name {
+        font-size: 28px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Top Header Navigation -->
+  <header class="site-header">
+    <div class="title-group">
+      <h1 class="main-title">
+        <span>🇵🇱</span> Polish tech events
+      </h1>
+      <p class="subpage-subtitle">A subjective overview of my favourite tech gatherings.</p>
+    </div>
+
+    <div style="display: flex; gap: 10px; align-items: center;">
+      <a href="index.html" class="sketch-btn" title="Jan Karaś — Homepage">
+        🏠 Home
+      </a>
+      <a href="caiak.html" class="sketch-btn" title="CAIAK: Conference, AI & Kayaking">
+        🛶 CAIAK
+      </a>
+    </div>
+  </header>
+
+  <main class="content-container">
+
+    <!-- Minimal Intro Note -->
+    <div class="intro-note">
+      <div class="tape-strip"></div>
+      <p>
+        Once a collegue from abroad asked me what interesting events take part in Poland, so I came up with this list.
+      </p>
+    </div>
+
+    <!-- Quick Search -->
+    <div class="search-wrapper">
+      <input type="text" id="searchInput" class="search-input" placeholder="🔍 Filter events by name, city, type..."
+        aria-label="Search events">
+    </div>
+
+    <!-- Events Feed -->
+    <div class="events-feed" id="eventsFeed">
+      <!-- Populated dynamically via JS -->
+    </div>
+
+    <!-- Empty Search State -->
+    <div class="empty-state" id="emptyState">
+      <p>No matching events found.</p>
+    </div>
+
+  </main>
+
+  <footer class="site-footer">
+    <p>Curated by Jan Karaś • Polish tech events</p>
+  </footer>
+
+  <script>
+    const TECH_EVENTS = [
+      {
+        id: "mlinpl",
+        name: "ML in PL",
+        type: "Conference, research-oriented, open to students and engineers",
+        badge: "Conference",
+        when: "Usually early October",
+        where: "Warsaw",
+        participationVariants: "Talk, poster, workshops, just a participant, volunteer (great option if you are a student to get in without paying for the ticket, it requires helping during the event e.g. with registration or the cloakroom, definitely worth it!)",
+        about: [
+          "ML in PL is the event with the longest tradition among the listed ones. It is heavily research oriented, although many students and professionals join it. Each year, it attracts speakers from top tier research institutions from both industry and academia.",
+          "Topics discussed at the conference span a wide range of ML areas, including bioinformatics, diffusion models, reinforcement learning, LLMs, computer vision, robotics, drug discovery, AI safety and alignment, graph neural networks, medical imaging, ML theory, and industry applications from sponsors. Talks range from math heavy presentations (such as theoretical Hessian analysis by <a href=\"https://conference2025.mlinpl.org/program#contributed-talk-10\" target=\"_blank\" rel=\"noopener noreferrer\">Weronika Ormaniec from ETH Zurich</a> or <a href=\"https://conference.mlinpl.org/2026/program#invited-talk-13\" target=\"_blank\" rel=\"noopener noreferrer\">Johannes von Oswald from the Google Paradigms of Intelligence team</a>), through academic research, to very application oriented talks by sponsoring companies (such as a great talk by <a href=\"https://conference.mlinpl.org/2026/program#sponsor-talk-1\" target=\"_blank\" rel=\"noopener noreferrer\">Allegro walking step by step through the MLOps process</a> for one of the models used on the platform).",
+          "The conference consists of two parts: the main conference (Thursday, Friday, Saturday) and tutorials on Sunday. Tickets are sold separately, and students get a 50% discount for both.",
+          "Tickets and how to get in as a student: early bird tickets for students are around 300 to 350 PLN. Volunteers can get in for free. It is worth asking the organizers in advance and monitoring their social media, as the spots for volunteers are rapidly filled out. It is not required to be based in Warsaw to become a volunteer. Actually, for several editions there was a considerable representation of Olsztyn based students among the volunteers. Another option is presenting a poster (see, for example, the <a href=\"https://conference.mlinpl.org/2026/program#posters\" target=\"_blank\" rel=\"noopener noreferrer\">2026 edition</a> to have a glimpse of what the topics are). If you are a student researcher, another good option besides the poster sessions is the so called “student research workshop” (confusing name btw), which opens the conference on Thursday each year: students get the stage and 15 minutes to present their research. Last but not least, on Sunday the tutorials take place, which also guarantees you entrance to the conference.",
+          "After the first conference day, an afterparty takes place. If you have a talk, avoid at all costs having it scheduled for Friday morning as the participant count will be at a global minimum :P"
+        ],
+        website: "https://conference.mlinpl.org/about-ml-in-pl-conference"
+      },
+      {
+        id: "ghostday",
+        name: "Ghost Day",
+        type: "Conference",
+        badge: "Conference",
+        when: "April – May",
+        where: "Poznań",
+        participationVariants: "Talk, poster, lightning talks (~7 minutes, really good option for students as well as hands-on professionals)",
+        partnerCompanies: "Pearson, Allegro, Google consequently have they stands at the conference. Each year you can also expect some other companies joining.",
+        about: [
+          "Ghost Day is a Machine Learning conference organized by the Ghost (Group of Horribly Optimistic STatisticians) student group since 2019. Although the conference is student friendly it gathers professionals and researchers from Poland and abroad.",
+          "If you're looking for a job, Ghost Day is a great opportunity to find out more about companies based in Poznań, such as Pearson and Allegro, as well as those based further afield, such as Google and G-Research. The conference has a proven track record of attracting speakers from top companies and research institutions such as NASA, Meta and Mistral, to name a few.",
+          "The conference was usually free of charge for students. However, it is recommended to apply early, as places are limited. While the conference is certainly not small, I would say it prioritises quality over quantity.",
+          "Personally, I’m a huge fan of short lightning talks as they provide an efficient way of seeing what people have built and an opportunity to ask questions and start a conversation straight afterwards. The level of expertise is very diversified as the presenters range from students, through regular/mid developers to experienced seniors researchers or technical managers. Plus, they can’t be boring as they end quickly anyway! ;)",
+          "Besides the “formal” part each year  an afterparty takes place."
+        ],
+        website: "https://ghostday.pl/"
+      },
+      {
+        id: "caiak",
+        name: "CAIAK",
+        type: "Conference & community retreat, open to AI science clubs and enthusiasts",
+        badge: "Conference",
+        when: "Annual (late spring / summer)",
+        where: "Olsztyn",
+        participationVariants: "Speaker, attendee, poster",
+        website: "caiak.html"
+      },
+      {
+        id: "ensembleai",
+        name: "EnsembleAI Hackathon",
+        type: "Hackathon",
+        badge: "Hackathon",
+        when: "March",
+        where: "Warsaw or Kraków",
+        participationVariants: null,
+        partnerCompanies: "Supported by companies with offices based in Poland, including m-Bank, Allegro, JetBrains, AI Clearing, and Asseco, as well as international partners like G-Research.",
+        about: [
+          "The hackathon originally launched with a focus on ML security, featuring tasks such as stealing embedding models and protecting models from extraction. Organizers provided HPC compute for participants and hosted APIs exposing target models that teams were tasked with distilling. Each edition typically features around 3 to 4 challenges, each with its own live leaderboard. After concluding cooperation with CISPA in 2026, the hackathon diversified its challenges beyond ML security into varied applied ML domains, maintaining a dedicated leaderboard per task.",
+          "The hackathon is organized by a group of young ML enthusiasts mostly related to Golem, BIT, KNUM, KN Data Science, or the ML in PL association.",
+          "The event has been supported by companies with offices based in Poland—including m-Bank, Allegro, JetBrains, AI Clearing, and Asseco—as well as international partners such as G-Research."
+        ],
+        website: "https://ensembleaihackathon.pl/#/2026",
+        tasks: [
+          {
+            year: 2024,
+            edition: "Warsaw",
+            repoUrl: "https://kaszkowiak.org/blog/ensemble-ai/",
+            repoLabel: "Team write-up (PL) ↗",
+            note: "Organized in cooperation with the CISPA SprintML Lab, with tasks centered on ML security. The first edition spawned many memes about infrastructure and API reliability, though this was greatly improved in subsequent editions. One of the teams described their solution in a <a href=\"https://kaszkowiak.org/blog/ensemble-ai/\" target=\"_blank\" rel=\"noopener noreferrer\">blog post (in Polish)</a>.",
+            items: [
+              {
+                topic: "Model Stealing",
+                desc: "Reconstructing a black-box image encoder through noisy API queries."
+              },
+              {
+                topic: "Sybil Attack",
+                desc: "Recovering original representation vectors across multiple transformed sessions."
+              },
+              {
+                topic: "Model Defense",
+                desc: "Transforming output representations to prevent extraction while keeping utility."
+              }
+            ]
+          },
+          {
+            year: 2025,
+            edition: "Kraków",
+            repoUrl: "https://github.com/ensembleAI-hackathon/tasks-2025/tree/main",
+            repoLabel: "tasks-2025 repo ↗",
+            note: "Continued the collaboration with the CISPA SprintML Lab on ML security tasks alongside a partner bonus challenge (TRUMPF). A separate track (OctoSpace) was offered as an alternative for game AI. Notably, the hackathon was won by a team of Polish high school students, winners of the AI Olympiad.",
+            items: [
+              {
+                topic: "Membership Inference Attack (MIA)",
+                desc: "Predicting whether given samples were used in the model's training data."
+              },
+              {
+                topic: "Model Stealing (B4B Defense)",
+                desc: "Reconstructing a black-box image encoder protected by B4B defense via API queries."
+              },
+              {
+                topic: "Adversarial Robustness",
+                desc: "Training an image classifier resistant to adversarial perturbations."
+              },
+              {
+                topic: "Backdoor Removal",
+                desc: "Removing injected backdoor triggers from a neural network while keeping accuracy."
+              },
+              {
+                topic: "OctoSpace (Game Bot)",
+                desc: "Developing an autonomous bot for a 2D strategy game tournament."
+              },
+              {
+                topic: "Image Watermarking (TRUMPF)",
+                desc: "Embedding imperceptible watermarks into images to verify authenticity."
+              }
+            ]
+          },
+          {
+            year: 2026,
+            edition: "Warsaw",
+            repoUrl: "https://github.com/ensembleAI-hackathon/tasks-2026/tree/main",
+            repoLabel: "tasks-2026 repo ↗",
+            note: "After discontinuing cooperation with CISPA in 2026, the hackathon diversified its challenges beyond ML security. The third edition offered 4 tasks across various domains (ChEBI molecule classification, code context retrieval, heat pump power forecasting, and ECG digitization) prepared by industry and academic partners.",
+            items: [
+              {
+                topic: "ChEBI Molecule Classification",
+                desc: "Hierarchical classification of chemical molecules into ontology DAG classes."
+              },
+              {
+                topic: "Code Context Retrieval",
+                desc: "Selecting repository context to improve code generation in large codebases (with JetBrains)."
+              },
+              {
+                topic: "Heat Pump Power Forecasting",
+                desc: "Time-series forecasting of aggregated electricity demand from heat pumps."
+              },
+              {
+                topic: "ECG Digitization",
+                desc: "Extracting digital signal time-series from paper or photo ECG records."
+              }
+            ]
+          }
+        ]
+      }
+    ];
+
+    const eventsFeed = document.getElementById('eventsFeed');
+    const searchInput = document.getElementById('searchInput');
+    const emptyState = document.getElementById('emptyState');
+
+    function createEventCard(event) {
+      const card = document.createElement('article');
+      card.className = 'event-card';
+      card.id = `event-${event.id}`;
+
+      const badgeClass = event.badge === 'Hackathon' ? 'badge badge-hackathon' : 'badge';
+      const iconHtml = event.icon ? `<span class="event-icon">${event.icon}</span>` : '';
+
+      let variantsHtml = '';
+      if (event.participationVariants) {
+        variantsHtml = `
+          <li class="detail-item">
+            <span class="detail-label">Participation variants:</span>
+            <span class="detail-value">${event.participationVariants}</span>
+          </li>
+        `;
+      }
+
+      let partnersHtml = '';
+      if (event.partnerCompanies) {
+        partnersHtml = `
+          <li class="detail-item">
+            <span class="detail-label">Partner companies:</span>
+            <span class="detail-value">${event.partnerCompanies}</span>
+          </li>
+        `;
+      }
+
+      let aboutButtonHtml = '';
+      let aboutContentHtml = '';
+      if (event.about && event.about.length > 0) {
+        aboutButtonHtml = `
+          <button type="button" class="sketch-btn about-btn" aria-expanded="false" aria-controls="about-${event.id}">
+            About ▾
+          </button>
+        `;
+        aboutContentHtml = `
+          <div class="event-about-content" id="about-${event.id}" style="display: none;">
+            ${event.about.map(p => `<p class="about-p">${p}</p>`).join('')}
+          </div>
+        `;
+      }
+
+      let companiesButtonHtml = '';
+      let companiesContentHtml = '';
+      if (event.involvedCompanies && event.involvedCompanies.length > 0) {
+        companiesButtonHtml = `
+          <button type="button" class="sketch-btn companies-btn" aria-expanded="false" aria-controls="companies-${event.id}">
+            Involved Companies ▾
+          </button>
+        `;
+
+        const chipsHtml = event.involvedCompanies.map(c => {
+          const isPartner = c.type === 'partner';
+          const typeClass = isPartner ? 'is-partner' : 'is-sponsor';
+          const label = isPartner ? 'Partner' : 'Sponsor';
+          const title = c.note ? `${c.name} — ${c.note}` : (c.years ? `${c.name} — ${c.years}` : c.name);
+          return `
+            <span class="company-pill ${typeClass}" title="${title}">
+              <span class="company-name">${c.name}</span>
+              <span class="pill-badge">${label}</span>
+            </span>
+          `;
+        }).join('');
+
+        companiesContentHtml = `
+          <div class="event-companies-content" id="companies-${event.id}" style="display: none;">
+            <div class="companies-header">
+              <span class="companies-title">Involved Companies</span>
+              <div class="companies-legend">
+                <span class="legend-chip sponsor">● Sponsor</span>
+                <span class="legend-chip partner">● Partner</span>
+              </div>
+            </div>
+            <div class="companies-grid">
+              ${chipsHtml}
+            </div>
+            <p class="companies-note">
+              * Note: This list is not complete. Please refer to the <a href="${event.website}" ${event.website.startsWith('http') ? 'target="_blank" rel="noopener noreferrer"' : ''}>official Ghost Day website</a> for the full list.
+            </p>
+          </div>
+        `;
+      }
+
+      let tasksButtonHtml = '';
+      let tasksContentHtml = '';
+      if (event.tasks && event.tasks.length > 0) {
+        tasksButtonHtml = `
+          <button type="button" class="sketch-btn tasks-btn" aria-expanded="false" aria-controls="tasks-${event.id}">
+            Tasks (2024–2026) ▾
+          </button>
+        `;
+
+        const tasksGroupsHtml = event.tasks.map(group => {
+          const repoLinkHtml = group.repoUrl ? `
+            <a href="${group.repoUrl}" target="_blank" rel="noopener noreferrer" class="tasks-year-repo">
+              ${group.repoLabel || 'GitHub repo ↗'}
+            </a>
+          ` : '';
+
+          const itemsHtml = group.items.map(task => `
+            <li class="task-item">
+              <span class="task-topic">${task.topic}:</span>
+              <span class="task-desc">${task.desc}</span>
+            </li>
+          `).join('');
+
+          const noteHtml = group.note ? `<p class="tasks-year-note">${group.note}</p>` : '';
+
+          return `
+            <div class="tasks-year-group">
+              <div class="tasks-year-header">
+                <span class="tasks-year-heading">${group.year} (${group.edition})</span>
+                ${repoLinkHtml}
+              </div>
+              ${noteHtml}
+              <ul class="tasks-list">
+                ${itemsHtml}
+              </ul>
+            </div>
+          `;
+        }).join('');
+
+        tasksContentHtml = `
+          <div class="event-tasks-content" id="tasks-${event.id}" style="display: none;">
+            <div class="tasks-header">
+              <span class="tasks-title">Hackathon Tasks by Edition (2024–2026)</span>
+            </div>
+            ${tasksGroupsHtml}
+          </div>
+        `;
+      }
+
+      card.innerHTML = `
+        <div class="card-header">
+          <h2 class="event-name">${iconHtml}${event.name}</h2>
+          <div class="card-badges">
+            <span class="${badgeClass}">${event.badge}</span>
+            <span class="badge" style="background: #fef3c7; color: #b45309;">📍 ${event.where}</span>
+          </div>
+        </div>
+
+        <ul class="details-list">
+          <li class="detail-item">
+            <span class="detail-label">Type:</span>
+            <span class="detail-value">${event.type}</span>
+          </li>
+          <li class="detail-item">
+            <span class="detail-label">When:</span>
+            <span class="detail-value">${event.when}</span>
+          </li>
+          <li class="detail-item">
+            <span class="detail-label">Where:</span>
+            <span class="detail-value">${event.where}</span>
+          </li>
+          ${variantsHtml}
+          ${partnersHtml}
+        </ul>
+
+        <div class="card-footer">
+          <div class="footer-actions">
+            <a href="${event.website}" ${event.website.startsWith('http') ? 'target="_blank" rel="noopener noreferrer"' : ''} class="sketch-btn primary">
+              Visit Website ↗
+            </a>
+            ${companiesButtonHtml}
+            ${aboutButtonHtml}
+            ${tasksButtonHtml}
+          </div>
+          <div class="panels-container">
+            ${companiesContentHtml}
+            ${aboutContentHtml}
+            ${tasksContentHtml}
+          </div>
+        </div>
+      `;
+
+      const aboutBtn = card.querySelector('.about-btn');
+      const aboutContent = card.querySelector('.event-about-content');
+      if (aboutBtn && aboutContent) {
+        aboutBtn.addEventListener('click', () => {
+          const isHidden = aboutContent.style.display === 'none';
+          aboutContent.style.display = isHidden ? 'block' : 'none';
+          aboutBtn.innerHTML = isHidden ? 'About ▴' : 'About ▾';
+          aboutBtn.setAttribute('aria-expanded', isHidden ? 'true' : 'false');
+        });
+      }
+
+      const companiesBtn = card.querySelector('.companies-btn');
+      const companiesContent = card.querySelector('.event-companies-content');
+      if (companiesBtn && companiesContent) {
+        companiesBtn.addEventListener('click', () => {
+          const isHidden = companiesContent.style.display === 'none';
+          companiesContent.style.display = isHidden ? 'block' : 'none';
+          companiesBtn.innerHTML = isHidden ? 'Involved Companies ▴' : 'Involved Companies ▾';
+          companiesBtn.setAttribute('aria-expanded', isHidden ? 'true' : 'false');
+        });
+      }
+
+      const tasksBtn = card.querySelector('.tasks-btn');
+      const tasksContent = card.querySelector('.event-tasks-content');
+      if (tasksBtn && tasksContent) {
+        tasksBtn.addEventListener('click', () => {
+          const isHidden = tasksContent.style.display === 'none';
+          tasksContent.style.display = isHidden ? 'block' : 'none';
+          tasksBtn.innerHTML = isHidden ? 'Tasks (2024–2026) ▴' : 'Tasks (2024–2026) ▾';
+          tasksBtn.setAttribute('aria-expanded', isHidden ? 'true' : 'false');
+        });
+      }
+
+      return card;
+    }
+
+    function renderEvents(query = '') {
+      const q = query.trim().toLowerCase();
+      eventsFeed.innerHTML = '';
+
+      const filtered = TECH_EVENTS.filter(event => {
+        if (!q) return true;
+        const tasksSearchable = (event.tasks || []).map(group =>
+          `${group.year} ${group.edition} ${group.note || ''} ` + group.items.map(t => `${t.topic} ${t.desc}`).join(' ')
+        ).join(' ');
+        const searchable = [
+          event.name,
+          event.type,
+          event.when,
+          event.where,
+          event.participationVariants || '',
+          event.partnerCompanies || '',
+          Array.isArray(event.about) ? event.about.join(' ') : (event.about || ''),
+          (event.involvedCompanies || []).map(c => c.name).join(' '),
+          tasksSearchable
+        ].join(' ').toLowerCase();
+        return searchable.includes(q);
+      });
+
+      if (filtered.length === 0) {
+        emptyState.style.display = 'block';
+      } else {
+        emptyState.style.display = 'none';
+        filtered.forEach(event => {
+          eventsFeed.appendChild(createEventCard(event));
+        });
+      }
+    }
+
+    searchInput.addEventListener('input', (e) => {
+      renderEvents(e.target.value);
+    });
+
+    renderEvents();
+  </script>
+
+</body>
+
+</html>
