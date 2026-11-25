@@ -1,0 +1,1621 @@
+<!--
+  Source repository: KTFish/MLinPL-workshops-dev
+  Source commit SHA: 8468ce15d665bd5b4ba0a0eb785965049256d6c4
+  Verbatim excerpts & 12 Mermaid diagrams translated from:
+    - workshops-content/part-01/01-preamble.md
+    - workshops-content/part-01/package-organization.md
+    - workshops-content/part-01/design-patterns.md
+    - workshops-content/part-01/instrumentation-audit-for-researchers.md
+    - workshops-content/part-04/02-further-resources.md
+-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Workshops: Fundamentals matter more than ever! — Jan Karaś</title>
+  <link rel="icon" href="favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="assets/favicon-16x16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Patrick+Hand&display=swap');
+
+    :root {
+      --ink: #1a1a1a;
+      --paper: #fbf9f4;
+      --accent-red: #e03131;
+      --muted: #555555;
+      --highlight: #fff9db;
+      --soft-red: #fee2e2;
+      --border-soft: #e5dfd3;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      min-height: 100vh;
+      background-color: var(--paper);
+      color: var(--ink);
+      font-family: 'Patrick Hand', cursive, sans-serif;
+      font-size: 19px;
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+      background-image:
+        radial-gradient(#d4cfc3 1.2px, transparent 1.2px),
+        radial-gradient(#e5dfd3 1px, var(--paper) 1px);
+      background-size: 28px 28px;
+      background-position: 0 0, 14px 14px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 18px 18px 24px;
+    }
+
+    /* Local CSS shim for Mermaid fa:fa-user icons (zero external icon CDN) */
+    .fa-user::before {
+      content: "👤";
+      font-style: normal;
+      margin-right: 4px;
+    }
+
+    .deck-shell {
+      max-width: 980px;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    /* Header Bar */
+    .deck-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .header-left,
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .section-pill {
+      font-family: 'Caveat', cursive;
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--accent-red);
+      background: var(--soft-red);
+      border: 2px solid var(--accent-red);
+      border-radius: 255px 15px 225px 15px/15px 225px 15px 255px;
+      padding: 3px 14px;
+      line-height: 1.2;
+    }
+
+    .slide-counter {
+      font-size: 18px;
+      color: var(--ink);
+      background: #ffffff;
+      border: 2px solid var(--ink);
+      border-radius: 255px 15px 225px 15px/15px 225px 15px 255px;
+      padding: 3px 12px;
+      box-shadow: 2px 2px 0px var(--ink);
+      white-space: nowrap;
+    }
+
+    #offline-notice {
+      display: none;
+      font-size: 15px;
+      color: var(--muted);
+      background: var(--highlight);
+      border: 1.5px dashed var(--muted);
+      border-radius: 10px;
+      padding: 3px 10px;
+    }
+
+    #offline-notice.visible {
+      display: inline-block;
+    }
+
+    /* Hand-drawn Sketch Button */
+    .sketch-btn {
+      font-family: 'Patrick Hand', cursive, sans-serif;
+      font-size: 18px;
+      background: #ffffff;
+      border: 2px solid var(--ink);
+      border-radius: 255px 15px 225px 15px/15px 225px 15px 255px;
+      padding: 6px 16px;
+      cursor: pointer;
+      box-shadow: 2px 3px 0px var(--ink);
+      transition: all 0.15s ease;
+      color: var(--ink);
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      line-height: 1.25;
+    }
+
+    .sketch-btn:hover:not(:disabled) {
+      transform: translate(-1px, -1px);
+      box-shadow: 3px 4px 0px var(--ink);
+      background: var(--highlight);
+    }
+
+    .sketch-btn:active:not(:disabled) {
+      transform: translate(1px, 1px);
+      box-shadow: 1px 1px 0px var(--ink);
+    }
+
+    .sketch-btn:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+      box-shadow: 1px 1px 0px var(--ink);
+    }
+
+    .sketch-btn[aria-current="true"] {
+      background: var(--soft-red);
+      border-color: var(--accent-red);
+      color: var(--accent-red);
+      font-weight: bold;
+    }
+
+    .sketch-btn[aria-current="true"]:hover {
+      background: #fecaca;
+    }
+
+    /* Main Slide Card */
+    .slide-card {
+      position: relative;
+      background: #ffffff;
+      border: 2px solid var(--ink);
+      border-radius: 255px 15px 225px 15px/15px 225px 15px 255px;
+      box-shadow: 3px 4px 0px var(--ink);
+      padding: 34px 36px 30px;
+      min-height: 72vh;
+      max-height: calc(100vh - 158px);
+      overflow-y: auto;
+    }
+
+    .tape-strip {
+      position: absolute;
+      top: -12px;
+      left: 50%;
+      transform: translateX(-50%) rotate(-1deg);
+      width: 110px;
+      height: 24px;
+      background: rgba(254, 240, 138, 0.75);
+      border: 1px dashed rgba(180, 83, 9, 0.35);
+      pointer-events: none;
+    }
+
+    .slide {
+      display: none;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .slide.active {
+      display: flex;
+    }
+
+    /* Typography inside slides */
+    .slide h1 {
+      font-family: 'Caveat', cursive;
+      font-size: 40px;
+      line-height: 1.1;
+      color: var(--accent-red);
+      margin-bottom: 2px;
+    }
+
+    .slide h2 {
+      font-family: 'Caveat', cursive;
+      font-size: 34px;
+      line-height: 1.12;
+      color: var(--accent-red);
+      margin-top: 4px;
+    }
+
+    .slide h3 {
+      font-family: 'Caveat', cursive;
+      font-size: 26px;
+      line-height: 1.15;
+      color: var(--ink);
+      margin-top: 6px;
+    }
+
+    .slide h4 {
+      font-family: 'Caveat', cursive;
+      font-size: 23px;
+      line-height: 1.15;
+      color: var(--muted);
+      margin-top: 4px;
+    }
+
+    .slide p {
+      font-size: 19px;
+      line-height: 1.5;
+      color: var(--ink);
+    }
+
+    .slide a {
+      color: var(--accent-red);
+      text-decoration: underline;
+      text-decoration-style: dashed;
+      text-underline-offset: 3px;
+    }
+
+    .slide a:hover {
+      background: var(--highlight);
+    }
+
+    .slide ul,
+    .slide ol {
+      padding-left: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .slide li {
+      font-size: 18.5px;
+      line-height: 1.45;
+    }
+
+    .slide ul ul {
+      margin-top: 4px;
+    }
+
+    .slide code {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      font-size: 0.84em;
+      background: var(--paper);
+      border: 1px solid #d4cfc3;
+      border-radius: 5px;
+      padding: 1px 5px;
+    }
+
+    .code-block {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      font-size: 14px;
+      line-height: 1.45;
+      background: var(--paper);
+      border: 2px solid var(--ink);
+      border-radius: 12px;
+      padding: 12px 16px;
+      overflow-x: auto;
+      white-space: pre;
+    }
+
+    .admonition {
+      background: var(--highlight);
+      border: 2px solid var(--ink);
+      border-left: 6px solid var(--accent-red);
+      border-radius: 12px;
+      padding: 12px 16px;
+    }
+
+    .admonition.tip {
+      background: #f0fdf4;
+      border-left-color: #15803d;
+    }
+
+    .admonition-title {
+      font-family: 'Caveat', cursive;
+      font-size: 22px;
+      font-weight: 700;
+      margin-bottom: 4px;
+      color: var(--accent-red);
+    }
+
+    .admonition.tip .admonition-title {
+      color: #15803d;
+    }
+
+    .formula-box {
+      background: var(--paper);
+      border: 2px dashed var(--ink);
+      border-radius: 12px;
+      padding: 10px 16px;
+      text-align: center;
+      font-size: 22px;
+      font-weight: bold;
+      letter-spacing: 0.02em;
+    }
+
+    .footnote {
+      font-size: 16px;
+      color: var(--muted);
+      border-top: 1.5px dashed var(--border-soft);
+      padding-top: 8px;
+    }
+
+    /* Tables */
+    .table-wrap {
+      width: 100%;
+      overflow-x: auto;
+    }
+
+    .slide table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 17px;
+      background: #ffffff;
+    }
+
+    .slide th,
+    .slide td {
+      border: 1.5px solid var(--ink);
+      padding: 7px 11px;
+      text-align: left;
+      vertical-align: top;
+    }
+
+    .slide th {
+      background: var(--highlight);
+      font-family: 'Caveat', cursive;
+      font-size: 21px;
+      font-weight: 700;
+    }
+
+    .slide tbody tr:nth-child(even) {
+      background: var(--paper);
+    }
+
+    /* Mermaid Diagrams */
+    .mermaid-wrap {
+      width: 100%;
+      overflow-x: auto;
+      background: var(--paper);
+      border: 1.5px dashed #c8c1b4;
+      border-radius: 14px;
+      padding: 14px 12px;
+      display: flex;
+      justify-content: center;
+    }
+
+    .mermaid {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      font-size: 13.5px;
+      line-height: 1.4;
+      white-space: pre;
+      margin: 0;
+      width: 100%;
+      display: flex;
+      justify-content: center;
+    }
+
+    .mermaid svg {
+      max-width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    /* Media */
+    .media-center {
+      display: flex;
+      justify-content: center;
+    }
+
+    .media-center img {
+      border: 2px solid var(--ink);
+      border-radius: 12px;
+      box-shadow: 2px 3px 0px var(--ink);
+    }
+
+    /* Two-column compact helper for dense reference slides */
+    .two-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      align-items: start;
+    }
+
+    /* Footer Navigation */
+    .deck-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .nav-arrows {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .section-jumps {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .section-jumps .sketch-btn {
+      font-size: 16px;
+      padding: 5px 12px;
+    }
+
+    @media (max-width: 760px) {
+      .two-col {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 640px) {
+      body {
+        padding: 10px 8px 16px;
+        font-size: 17px;
+      }
+
+      .slide-card {
+        padding: 24px 16px 20px;
+        min-height: 68vh;
+        max-height: none;
+        border-radius: 18px;
+      }
+
+      .slide h1 {
+        font-size: 32px;
+      }
+
+      .slide h2 {
+        font-size: 28px;
+      }
+
+      .slide p,
+      .slide li {
+        font-size: 17px;
+      }
+
+      .mermaid-wrap {
+        justify-content: flex-start;
+        padding: 10px 8px;
+      }
+
+      .mermaid {
+        justify-content: flex-start;
+        width: auto;
+      }
+
+      .mermaid-wrap svg {
+        max-width: none;
+        min-width: 560px;
+        height: auto;
+      }
+
+      .deck-footer {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .nav-arrows {
+        justify-content: space-between;
+      }
+
+      .section-jumps {
+        justify-content: center;
+      }
+    }
+
+    /* Slide 22: Minimalistic Christmas Goodbye & Snowflake-Styled Snow */
+    .slide-goodbye {
+      position: relative;
+      overflow: hidden;
+      min-height: calc(72vh - 64px);
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 16px 12px;
+    }
+
+    .snow-layer {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .snowflake {
+      position: absolute;
+      top: -12%;
+      color: #64748b;
+      opacity: 0.7;
+      user-select: none;
+      line-height: 1;
+      animation: snowfall linear infinite;
+    }
+
+    .snowflake:nth-child(1)  { left: 5%;  font-size: 20px; animation-duration: 21s; animation-delay: 0s;    opacity: 0.65; }
+    .snowflake:nth-child(2)  { left: 13%; font-size: 26px; animation-duration: 26s; animation-delay: -5s;   opacity: 0.75; color: var(--accent-red); }
+    .snowflake:nth-child(3)  { left: 21%; font-size: 18px; animation-duration: 19s; animation-delay: -11s;  opacity: 0.6; }
+    .snowflake:nth-child(4)  { left: 30%; font-size: 24px; animation-duration: 24s; animation-delay: -3s;   opacity: 0.72; color: #475569; }
+    .snowflake:nth-child(5)  { left: 38%; font-size: 21px; animation-duration: 20s; animation-delay: -14s;  opacity: 0.68; color: var(--accent-red); }
+    .snowflake:nth-child(6)  { left: 47%; font-size: 28px; animation-duration: 28s; animation-delay: -8s;   opacity: 0.75; }
+    .snowflake:nth-child(7)  { left: 56%; font-size: 19px; animation-duration: 22s; animation-delay: -16s;  opacity: 0.62; color: #475569; }
+    .snowflake:nth-child(8)  { left: 64%; font-size: 25px; animation-duration: 25s; animation-delay: -4s;   opacity: 0.78; color: var(--accent-red); }
+    .snowflake:nth-child(9)  { left: 72%; font-size: 18px; animation-duration: 18s; animation-delay: -9s;   opacity: 0.65; }
+    .snowflake:nth-child(10) { left: 80%; font-size: 24px; animation-duration: 23s; animation-delay: -13s;  opacity: 0.72; color: #475569; }
+    .snowflake:nth-child(11) { left: 88%; font-size: 22px; animation-duration: 27s; animation-delay: -6s;   opacity: 0.7;  color: var(--accent-red); }
+    .snowflake:nth-child(12) { left: 94%; font-size: 21px; animation-duration: 21s; animation-delay: -12s;  opacity: 0.68; }
+
+    @keyframes snowfall {
+      0% {
+        transform: translate3d(0, -10%, 0) rotate(0deg);
+      }
+      50% {
+        transform: translate3d(16px, 52vh, 0) rotate(180deg);
+      }
+      100% {
+        transform: translate3d(-12px, 110vh, 0) rotate(360deg);
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .snowflake {
+        animation: none;
+        top: 12%;
+        opacity: 0.4;
+      }
+    }
+
+    .goodbye-content {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      max-width: 820px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 18px;
+    }
+
+    .slide-goodbye h2 {
+      font-size: 46px;
+      font-weight: 400;
+      margin-top: 0;
+    }
+
+    .slide-goodbye p {
+      font-size: 24px;
+      line-height: 1.45;
+      font-weight: 400;
+    }
+
+    .goodbye-invite-box {
+      width: 100%;
+      background: var(--highlight);
+      border: 2px solid var(--ink);
+      border-radius: 255px 15px 225px 15px/15px 225px 15px 255px;
+      padding: 22px 28px;
+      box-shadow: 3px 4px 0px var(--ink);
+    }
+
+    .goodbye-feedback-box {
+      background: #ffffff;
+      border: 2px dashed var(--accent-red);
+      border-radius: 255px 15px 225px 15px/15px 225px 15px 255px;
+      padding: 10px 20px;
+      box-shadow: 2px 2px 0px var(--ink);
+    }
+
+    .slide-goodbye .goodbye-feedback-box p {
+      font-size: 20px;
+    }
+
+    .slide-goodbye .goodbye-feedback-box a {
+      font-weight: 400;
+    }
+
+    .goodbye-signoff {
+      font-family: 'Caveat', cursive;
+      font-size: 30px;
+      color: var(--muted);
+      font-weight: 400;
+    }
+
+    .goodbye-signoff span {
+      color: var(--accent-red);
+      font-weight: 400;
+      font-size: 34px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="deck-shell">
+
+    <header class="deck-header">
+      <div class="header-left">
+        <a href="index.html" class="sketch-btn">← Back</a>
+        <span id="section-pill" class="section-pill">Intro</span>
+      </div>
+      <div class="header-right">
+        <span id="offline-notice" role="status">Offline mode: showing raw diagram source.</span>
+        <span id="slide-counter" class="slide-counter">1 / 22</span>
+      </div>
+    </header>
+
+    <main class="slide-card" id="slide-card">
+      <div class="tape-strip"></div>
+
+      <!-- =============================================================== -->
+      <!-- SLIDE 1: Intro                                                  -->
+      <!-- =============================================================== -->
+      <section class="slide active" data-slide="1" data-section="Intro">
+        <h1>Workshops: Fundamentals matter more than ever!</h1>
+        <p>This part aims to give you the vocabulary and theoretical background. Based on the provided methodology you will be able to make conscious choices about the design of your primitives.</p>
+        <div class="mermaid-wrap">
+          <pre class="mermaid">graph LR
+    subgraph Intro["Introduction and theory"]
+        package-org["APM"]
+        dp["Design patterns"]
+        audit["Instrumentation audit"]
+    end
+
+    wrap-up["Wrap-up and resources"]
+
+    Intro --&gt; wrap-up</pre>
+        </div>
+        <p>We cover the following:</p>
+        <ol>
+          <li>The tools that help with distribution, portability, validation, and governance.</li>
+          <li>Design patterns for primitives structure and content.</li>
+          <li>A repository audit methodology tailored for research and PoC repositories.</li>
+        </ol>
+      </section>
+
+      <!-- =============================================================== -->
+      <!-- SLIDE 2: Package Org — Why even use APM?                        -->
+      <!-- =============================================================== -->
+      <section class="slide" data-slide="2" data-section="Package Org">
+        <h2>Why even use APM?</h2>
+        <p>Before apm the skills were published per harness. Moreover, the installation was either manual download or via <code>npm</code>. Considering that nowadays repositories with skills can easily reach 100k+ github stars they definitely deserve a customized tool for managing them. This section goes over the reasons why APM is worth using as well as how to define the most frequeltly used primitives.</p>
+        <div class="admonition">
+          <div class="admonition-title">Warning: The irony of GitHub stars distribution</div>
+          <p>The irony is that <code>apm</code> has less than 4k stars and remains a niche while skills like <code>grillme</code> go viral. We highly recommend to <a href="https://github.com/microsoft/apm" target="_blank" rel="noopener noreferrer">leave a star for the APM repo</a> and the other resources we mention during the tutorial!</p>
+        </div>
+        <p class="footnote">Note: The most well known <strong>primitive</strong> are skills, bacause they ususally work as an entry point to more complex workflows. However, there are more of them: agents, instructions, hooks, memory...</p>
+      </section>
+
+      <!-- =============================================================== -->
+      <!-- SLIDE 3: Package Org — Cross harness compatibility              -->
+      <!-- =============================================================== -->
+      <section class="slide" data-slide="3" data-section="Package Org">
+        <h2>Cross harness compatibility</h2>
+        <p>This is especially cool for students that juggle several subscriptions and switch the LLM provider as soon as tokens are burned out. APM allows to make it smooth.</p>
+        <div class="mermaid-wrap">
+          <pre class="mermaid">graph LR
+    subgraph Harnesses
+        H_A(Harness A)
+        H_B(Harness B)
+        H_C(Harness C)
+    end
+
+    subgraph User
+        Human_A["fa:fa-user User"]
+    end
+
+    APM[APM Package]
+
+    Human_A --&gt; H_A
+    Human_A --&gt; H_B
+    Human_A --&gt; H_C
+    APM --&gt; Human_A</pre>
+        </div>
+        <p>Another scenario where cross harness compatibility comes in handy is a team where different people use different harnesses. Maybe less common in companies, but for sure can happen often in academia.</p>
+        <div class="mermaid-wrap">
+          <pre class="mermaid">graph LR
+    subgraph Harnesses
+        H_A(Harness A)
+        H_B(Harness B)
+        H_C(Harness C)
+    end
+
+    subgraph Your dream team
+        Human_A["fa:fa-user User A"]
+        Human_B["fa:fa-user User B"]
+        Human_C["fa:fa-user User C"]
+    end
+
+    APM[APM Package]
+
+    Human_A --&gt; H_A
+    Human_B --&gt; H_B
+    Human_C --&gt; H_C
+
+    APM --&gt; Human_A
+    APM --&gt; Human_B
+    APM --&gt; Human_C</pre>
+        </div>
+        <p>It is interesting a tool making it easier to switch between harness providers is supported by Microsoft, the company behind Github Copilot.</p>
+      </section>
+
+      <!-- =============================================================== -->
+      <!-- SLIDE 4: Package Org — Layers                                   -->
+      <!-- =============================================================== -->
+      <section class="slide" data-slide="4" data-section="Package Org">
+        <h2>Layers</h2>
+        <p>with APM setting up a layered package system becomes smooth. We can collaborate with different teams and individuals and depending on the project have access to different packages, some of them can be shared.</p>
+        <div class="mermaid-wrap">
+          <pre class="mermaid">flowchart TB
+    subgraph Company["Company packages"]
+        direction TB
+        subgraph Organization["Organization packages"]
+            direction TB
+            subgraph Team["Team packages"]
+                direction TB
+                Personal["Personal packages"]
+            end
+        end
+    end</pre>
+        </div>
+        <p>In both industry and academia it is easy to find examples of workflows that are common (like code review) and things that are highly subjective and personal (context of my project, my preferences regarding code, models, format of output, used harness).</p>
+      </section>
+
+      <!-- =============================================================== -->
+      <!-- SLIDE 5: Package Org — Governance                               -->
+      <!-- =============================================================== -->
+      <section class="slide" data-slide="5" data-section="Package Org">
+        <h2>Governance</h2>
+        <div class="mermaid-wrap">
+          <pre class="mermaid">graph LR
+    Human_A["fa:fa-user User A"]
+
+    subgraph Governance
+        Audit
+        Scan
+        more["and more..."]
+    end
+
+    APM[APM Package] --&gt; Governance
+    Governance --&gt; Human_A</pre>
+        </div>
+        <p>Another reason that you might want to use APM is the ability to better validate, audit the packages you are using. We do not focus on this are during the workshops.</p>
+      </section>
+
+      <!-- =============================================================== -->
+      <!-- SLIDE 6: Package Org — Reproducibility                          -->
+      <!-- =============================================================== -->
+      <section class="slide" data-slide="6" data-section="Package Org">
+        <h2>Reproducibility</h2>
+        <div class="mermaid-wrap">
+          <pre class="mermaid">graph TD
+
+    subgraph Envs[" "]
+        EnvA
+        EnvB
+    end
+    Manifest["manifest"] --&gt; Lockfile["lockfile"]
+    Lockfile --&gt; EnvA["Environment A"]
+    Lockfile --&gt; EnvB["Environment B"]
+    EnvB &lt;-- "parity" --&gt; EnvA</pre>
+        </div>
+        <p>The exact state of the primitives used can be also reproduced. APM has all the elements of a traditional package manager</p>
+      </section>
+
+      <!-- =============================================================== -->
+      <!-- SLIDE 7: Package Org — What does an APM package contain?        -->
+      <!-- =============================================================== -->
+      <section class="slide" data-slide="7" data-section="Package Org">
+        <h2>What does an APM package contain?</h2>
+        <p>Let's start with a quick overview of the files, along with a Python analogy. The table below assumes the user knows what <a href="https://docs.astral.sh/uv/" target="_blank" rel="noopener noreferrer">uv dependency manager</a> is.</p>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>APM component</th>
+                <th>description</th>
+                <th>Python analogy</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><code>.apm/</code> dir</td>
+                <td>Stores the raw primitives (skills, agent personas, etc.).</td>
+                <td><code>src/</code> dir</td>
+              </tr>
+              <tr>
+                <td><code>apm.yml</code></td>
+                <td>The dependencies definition file.</td>
+                <td><code>pyproject.toml</code></td>
+              </tr>
+              <tr>
+                <td><code>apm.lock.yml</code></td>
+                <td>The exact description of dependencies.</td>
+                <td><code>uv.lock</code></td>
+              </tr>
+              <tr>
+                <td><code>user-name/repo-name</code></td>
+                <td>Package stored in a GitHub repository.</td>
+                <td>External package stored on PyPi.</td>
+              </tr>
+              <tr>
+                <td><code>apm_modules/</code></td>
+                <td>Stores all transitive dependencies. Lands here when running <code>apm install</code>. Should be gitignored.</td>
+                <td><code>.venv/lib/python3.x/site-packages</code></td>
+              </tr>
+              <tr>
+                <td><code>.agents/</code>, <code>.github/skills</code> etc.</td>
+                <td>Place where primitives are deployed (exact location depends on harness).</td>
+                <td><code>.venv/lib/python3.x/site-packages</code></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <h3>Package layout</h3>
+        <p>You have basically two main choices when designing a package: single skill package or a collection of skills. There are of course more options, but this two are the mostly used. See <a href="https://microsoft.github.io/apm/reference/package-types/" target="_blank" rel="noopener noreferrer">package types</a> for more detaisl.</p>
+      </section>
+
+      <!-- =============================================================== -->
+      <!-- SLIDE 8: Package Org — Primitives: Skills, Agents, Instructions -->
+      <!-- =============================================================== -->
+      <section class="slide" data-slide="8" data-section="Package Org">
+        <h2>Skills structure</h2>
+        <p>Every skill should follow this directory structure:</p>
+        <pre class="code-block">.apm/skills/
++-- your-skill/
+    +-- SKILL.md           # required: the skill body
+    +-- scripts/           # optional: executable scripts (usually python or bash)
+    +-- references/        # optional: context the skill loads on demand (e.g. how fix a often occuring bug)
+    +-- assets/            # optional: templates, code listings, images, fixtures to be reused
+    +-- examples/          # optional: sample inputs and outputs</pre>
+
+        <h4>Example frontmatter</h4>
+        <pre class="code-block">---
+name: top-stacks
+description: Use when user wants the best or most relevant Substack posts for a topic, including requests for reading lists or sources that answer specific questions. Return a ranked top five table of directly linked Substack articles with concise one line relevance notes. DO NOT use it for general web research or recommendations not related to Substacks.
+---</pre>
+        <p>Notice that:</p>
+        <ul>
+          <li>negative examples are mentioned (less important if you have small number of skills, more important if you have 50+ skills for eliminating conflicts)</li>
+          <li><code>Use when ...</code> is a good way to start your description.</li>
+          <li>Pay attention to your description, if generated with LLMs it can decrease the user experience.</li>
+          <li>Changing the description is a breaking change.</li>
+        </ul>
+
+        <div class="two-col">
+          <div>
+            <h3>Add agent persona</h3>
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Key</th>
+                    <th>Required</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr><td><code>name</code></td><td>recommended</td></tr>
+                  <tr><td><code>description</code></td><td>yes</td></tr>
+                  <tr><td><code>model</code></td><td>optional</td></tr>
+                  <tr><td><code>tools</code></td><td>optional</td></tr>
+                  <tr><td><code>color</code></td><td>optional</td></tr>
+                  <tr><td><code>handoffs</code></td><td>optional</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div>
+            <h3>Add a instruction file</h3>
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Key</th>
+                    <th>Required</th>
+                    <th>Purpose</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr><td><code>description</code></td><td>yes</td><td>One-line summary; used in compiled context indexes</td></tr>
+                  <tr><td><code>applyTo</code></td><td>yes for instructions</td><td>Glob (or comma-separated globs) the rule binds to</td></tr>
+                </tbody>
+              </table>
+            </div>
+            <h4>Drawbacks of using instrucitons</h4>
+            <ul>
+              <li>Very agressive loading</li>
+              <li>People tend to write very long instructions</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- =============================================================== -->
+      <!-- SLIDE 9: Package Org — Install a package & Maintanance          -->
+      <!-- =============================================================== -->
+      <section class="slide" data-slide="9" data-section="Package Org">
+        <h2>Install a package</h2>
+        <p>Usually I install packages per project using:</p>
+        <pre class="code-block">apm install user-name/repo-name</pre>
+        <p>For skills that I use across projects all the time I install them globally. Thanks to that I avoid setting this up for every project. Usually I pin the packages using the commit hash to avoid drift.</p>
+        <pre class="code-block">apm install -g user-name/repo-name</pre>
+
+        <h2>Maintanance</h2>
+        <ul>
+          <li>Run <code>apm audit</code> to verify divergence between deployed primitives and your lock file.</li>
+          <li>Run <code>apm prune</code>. This command removes installed packages from <code>apm_modules/</code> that are neither declared in <code>apm.yml</code> nor retained as transitive nodes in <code>apm.lock.yaml</code>. The command also removes their deployed integration files and updates the lockfile.</li>
+          <li><code>apm self-update</code>. Update apm to latest version. We recommend to update frequently as the tool is activelly developed.</li>
+        </ul>
+      </section>
+
+      <!-- =============================================================== -->
+      <!-- SLIDE 10: Design Patterns — Overview                            -->
+      <!-- =============================================================== -->
+      <section class="slide" data-slide="10" data-section="Design Patterns">
+        <h2>Design patterns</h2>
+        <p><strong>Design patterns</strong> are typical solutions to commonly occurring problems in software design. They are like pre-made blueprints that you can customize to solve a recurring design problem in your code. You may know some famous patterns like Strategy, Facade or Factory.</p>
+        <p>It turns out that there is an equivalent concept for agentic primitives (which also strengthens the idea that we should treat agentic primitives as code, not as part of documentation).</p>
+        <div class="mermaid-wrap">
+          <pre class="mermaid">graph LR
+    classical["Classic design patterns"]
+    agentic["Agentic design patterns"]
+
+    classical -- "Concepts transferred" --&gt; agentic</pre>
+        </div>
+        <p>An <strong>agentic design pattern</strong> is a reusable solution to coordination challenges in LLM driven systems where execution paths are decided at runtime rather than hardcoded in advance. While traditional software patterns assume deterministic components and static control flow, agentic patterns coordinate probabilistic models that dynamically invoke tools, revise intermediate results, or hand off work to other agents.</p>
+        <p>Only selected architectural patterns and anti-patterns for agentic workflows are presented. For the full pattern catalogue see the <a href="#slide-21">resources used</a>.</p>
+        <div class="admonition tip">
+          <div class="admonition-title">Tip: Vocabulary Alert</div>
+          <p>Some of the design pattern names may seem like buzzwords and overwhelming jargon at first. But after familiarizing yourself with them, they provide a robust vocabulary making conversations richer, going beyond "I told Claude to make it work, make no errors."</p>
+        </div>
+        <p class="footnote">Sources: Alexander Shvets, <a href="https://refactoring.guru/design-patterns/what-is-pattern" target="_blank" rel="noopener noreferrer">"What's a Design Pattern?"</a>, <em>Refactoring Guru</em>; Molisha Shah, <a href="https://www.augmentcode.com/guides/agentic-design-patterns#the-12-foundational-agentic-ai-design-patterns" target="_blank" rel="noopener noreferrer">"What Are Agentic Design Patterns? 2026 Pattern Catalog"</a>, <em>Augment Code</em>, 2026.</p>
+      </section>
+
+      <!-- =============================================================== -->
+      <!-- SLIDE 11: Design Patterns — Tiers of patterns                   -->
+      <!-- =============================================================== -->
+      <section class="slide" data-slide="11" data-section="Design Patterns">
+        <h2>Tiers of patterns</h2>
+        <div class="mermaid-wrap">
+          <pre class="mermaid">graph TD
+    R["Refactor patterns"]
+    A["Tier 3: architectural patterns"]
+
+    subgraph Tier2["Tier 2: design patterns"]
+        C["Creational"]
+        S["Structural"]
+        B["Behavioral"]
+    end
+
+    H["Tier 1: harness idioms"]
+    P["Tier 0: substrate primitives"]
+
+    R --&gt; A
+    A --&gt; C
+    A --&gt; S
+    A --&gt; B
+    C --&gt; H
+    S --&gt; H
+    B --&gt; H
+    H --&gt; P</pre>
+        </div>
+        <p>Patterns from Tier 3 are composed of Tier 2 patterns. For example, the <strong>A1. PANEL</strong> is represented as:</p>
+        <div class="formula-box">A1 PANEL = B1 + N × C2 + S4 + B4</div>
+        <ul>
+          <li><strong>B1</strong> (<strong>Fan-out and synthesizer</strong>): coordinates fan-out topology and synthesis.</li>
+          <li><strong>N × C2</strong> (<strong>Persona preload</strong>): instantiates <em>N</em> specialized review lenses in isolated contexts.</li>
+          <li><strong>S4</strong> (<strong>Validation decorator</strong>): gates the synthesized verdict.</li>
+          <li><strong>B4</strong> (<strong>Plan memento</strong>): persists the deliberation outcome to storage.</li>
+        </ul>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Pattern family</th>
+                <th>Primary responsibility</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td><strong><code>R</code> (Refactor)</strong></td><td>Module boundary hygiene, decomposing monoliths</td></tr>
+              <tr><td><strong><code>A</code> (Architectural)</strong></td><td>Multi-agent execution graphs, macro flows</td></tr>
+              <tr><td><strong><code>C</code> (Creational)</strong></td><td>Context isolation, persona scoping, lazy assets</td></tr>
+              <tr><td><strong><code>S</code> (Structural)</strong></td><td>Deterministic tool bridges, validation gates</td></tr>
+              <tr><td><strong><code>B</code> (Behavioral)</strong></td><td>Dynamic coordination, attention anchoring, plan memory</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- =============================================================== -->
+      <!-- SLIDE 12: Design Patterns — Primitive relations                 -->
+      <!-- =============================================================== -->
+      <section class="slide" data-slide="12" data-section="Design Patterns">
+        <h2>Primitive relations</h2>
+        <p>APM packages structure capabilities into distinct relation types:</p>
+        <div class="mermaid-wrap">
+          <pre class="mermaid">graph TD
+    subgraph Package["Local package"]
+        Inline["Inline skill"]
+        SiblingSkill["Sibling skill"]
+        Asset["Sibling asset"]
+        Subagent["Sibling subagent"]
+    end
+
+    External["External package"]
+
+    User(["User"]) --&gt;|"Invokes"| Inline
+    User -.-&gt;|"Direct dispatch"| SiblingSkill
+    Inline --&gt;|"Delegates to"| SiblingSkill
+    Inline --&gt;|"Loads on demand"| Asset
+    Inline --&gt;|"Spawns child thread"| Subagent
+    Subagent --&gt;|"Runs CLI or script"| Tools["System tools"]
+    External -.-&gt;|"Reused via apm.yml"| Inline</pre>
+        </div>
+        <ul>
+          <li><strong>Inline:</strong> Content and logic that live directly within the primitive's own file, executing in the active session context with no dependency edges.</li>
+          <li><strong>Sibling:</strong> Primitives (such as specialized skills, lazy assets, or child subagents) colocated in the same local package, referenced on demand or dispatched independently without crossing distribution boundaries.</li>
+          <li><strong>External:</strong> Upstream packages pulled from external repositories and pinned via <code>apm.yml</code>, crossing distribution boundaries for multi-project reuse.</li>
+          <li><strong>Other (Runtime tool affordances):</strong> Deterministic execution bridges (CLI utilities, compilers, scripts) that are runtime mechanisms rather than prompt primitives, invoked by subagents to interact with the system environment.</li>
+        </ul>
+      </section>
+
+      <!-- =============================================================== -->
+      <!-- SLIDE 13: Design Patterns — Pattern summary                     -->
+      <!-- =============================================================== -->
+      <section class="slide" data-slide="13" data-section="Design Patterns">
+        <h2>Pattern summary</h2>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Pattern</th>
+                <th>Category</th>
+                <th>Classical analog</th>
+                <th>Solves</th>
+                <th>Prevents</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong><code>C1. LAZY ASSET</code></strong></td>
+                <td>Creational</td>
+                <td>Lazy Initialization</td>
+                <td>Heavy templates loaded on every turn</td>
+                <td><code>EAGER BLOAT</code></td>
+              </tr>
+              <tr>
+                <td><strong><code>C2. PERSONA PRELOAD</code></strong></td>
+                <td>Creational</td>
+                <td>Constructor / Scoped Object</td>
+                <td>Model drifting or rewriting out of scope</td>
+                <td><code>UNPROMPTED DRIFT</code></td>
+              </tr>
+              <tr>
+                <td><strong><code>C3. THREAD SPAWN</code></strong></td>
+                <td>Creational</td>
+                <td>Factory Method / Process Isolation</td>
+                <td>Verbose output flooding the primary context</td>
+                <td><code>FAN-OUT-IN-ONE-CONTEXT</code></td>
+              </tr>
+              <tr>
+                <td><strong><code>S3. ORCHESTRATOR FACADE</code></strong></td>
+                <td>Structural</td>
+                <td>Facade</td>
+                <td>Fragmented multi-step execution</td>
+                <td><code>GOD MODULE</code>, <code>STUB ORCHESTRATION</code></td>
+              </tr>
+              <tr>
+                <td><strong><code>S4. VALIDATION DECORATOR</code></strong></td>
+                <td>Structural</td>
+                <td>Decorator / Assertion Gate</td>
+                <td>Silent failures passing downstream</td>
+                <td><code>WRAPPING WITHOUT BLOCKING</code></td>
+              </tr>
+              <tr>
+                <td><strong><code>S7. DETERMINISTIC TOOL BRIDGE</code></strong></td>
+                <td>Structural</td>
+                <td>Adapter / HAL</td>
+                <td>LLM guessing build status or facts</td>
+                <td><code>TOOLLESS ASSERTION</code></td>
+              </tr>
+              <tr>
+                <td><strong><code>B2. CONDITIONAL DISPATCH</code></strong></td>
+                <td>Behavioral</td>
+                <td>Strategy</td>
+                <td>Loading every rule branch up front</td>
+                <td><code>ALL-BRANCHES-LOADED</code></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- =============================================================== -->
+      <!-- SLIDE 14: Design Patterns — Anti-patterns reference             -->
+      <!-- =============================================================== -->
+      <section class="slide" data-slide="14" data-section="Design Patterns">
+        <h2>Anti-patterns reference</h2>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Anti-pattern</th>
+                <th>Description</th>
+                <th>Why it fails</th>
+                <th>Countermeasure</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong><code>GOD MODULE</code></strong></td>
+                <td>Single prompt handling all tasks</td>
+                <td>Attention degradation, untestable</td>
+                <td><code>R1. SPLIT</code> + <code>S3. ORCHESTRATOR FACADE</code></td>
+              </tr>
+              <tr>
+                <td><strong><code>ALL-BRANCHES-LOADED</code></strong></td>
+                <td>Preloading every rule and edge case</td>
+                <td>Wasted input tokens, prompt bloat</td>
+                <td><code>B2. CONDITIONAL DISPATCH</code></td>
+              </tr>
+              <tr>
+                <td><strong><code>FAN-OUT-IN-ONE-CONTEXT</code></strong></td>
+                <td>Running verbose CLI logs in main chat</td>
+                <td>Context window pollution, cache breaks</td>
+                <td><code>C3. THREAD SPAWN</code></td>
+              </tr>
+              <tr>
+                <td><strong><code>EAGER BLOAT</code></strong></td>
+                <td>Inlining large templates in skill body</td>
+                <td>High token cost per turn</td>
+                <td><code>C1. LAZY ASSET</code></td>
+              </tr>
+              <tr>
+                <td><strong><code>STUB ORCHESTRATION</code></strong></td>
+                <td>Wrapper without sequencing or gates</td>
+                <td>Cascading silent failures</td>
+                <td><code>S4. VALIDATION DECORATOR</code></td>
+              </tr>
+              <tr>
+                <td><strong><code>TOOLLESS ASSERTION</code></strong></td>
+                <td>LLM claiming success without tool check</td>
+                <td>Hallucinated facts and false positives</td>
+                <td><code>S7. DETERMINISTIC TOOL BRIDGE</code></td>
+              </tr>
+              <tr>
+                <td><strong><code>WRAPPING WITHOUT BLOCKING</code></strong></td>
+                <td>Logging errors but continuing anyway</td>
+                <td>Compounding failures downstream</td>
+                <td>Halting gates on non-zero exit status</td>
+              </tr>
+              <tr>
+                <td><strong><code>UNPROMPTED DRIFT</code></strong></td>
+                <td>Agent altering text or code outside scope</td>
+                <td>Corrupted manuscript or codebase</td>
+                <td><code>C2. PERSONA PRELOAD</code> with scoped tools</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- =============================================================== -->
+      <!-- SLIDE 15: Design Patterns — Fun fact: Caveman                   -->
+      <!-- =============================================================== -->
+      <section class="slide" data-slide="15" data-section="Design Patterns">
+        <h2>Fun fact: Caveman</h2>
+        <p>Caveman project proposed the idea of saving tokens by making the agent talk like a caveman. Thus simplifying the language and cutting tokens aggressively.</p>
+        <div class="media-center">
+          <img src="assets/caveman-meme.webp" alt="Caveman compression levels meme" style="max-width: 450px; width: 100%; height: auto;">
+        </div>
+        <p>The behavioral patterns formalize the Caveman concept, especially for agent-agent communication. The Caveman channel (<code>B14b/c</code>) uses high-density briefs and structured JSON receipts:</p>
+        <div class="mermaid-wrap">
+          <pre class="mermaid">graph TD
+    Parent["Parent orchestrator"]
+    Child["Child subagent"]
+
+    Parent -- "Telegraphic brief (~80 tokens)" --&gt; Child
+    Child -- "Runs deterministic tool" --&gt; Child
+    Child -- "JSON receipt (~40 tokens)" --&gt; Parent</pre>
+        </div>
+        <ul>
+          <li><strong>Spawn brief:</strong> Drops articles and politeness; retains exact paths, commands, and constraints.</li>
+          <li><strong>Receipt:</strong> Minimal JSON object (<code>status</code>, <code>artifact_path</code>, <code>error_digest</code>) keeping parent context clean.</li>
+        </ul>
+        <p class="footnote">Source: Julius Brussee, <a href="https://github.com/JuliusBrussee/caveman-code" target="_blank" rel="noopener noreferrer">"caveman-code"</a>, <em>GitHub</em>.</p>
+      </section>
+
+      <!-- =============================================================== -->
+      <!-- SLIDE 16: Audit — Failure mode                                  -->
+      <!-- =============================================================== -->
+      <section class="slide" data-slide="16" data-section="Audit">
+        <h2>Code instrumentation audit of a research codebase</h2>
+        <p>The justification for messy research code is shrinking. We can define standards before prototyping instead of wasting time on review, fixing, and debugging.</p>
+        <h3>Failure mode</h3>
+        <div class="mermaid-wrap">
+          <pre class="mermaid">sequenceDiagram
+    actor ENG as Engineer
+    actor SME
+    participant EXP as Experiment implementation&lt;br/&gt;(no standards)
+    participant REV as Review
+
+    Note over ENG: Present, but defines no standards
+    SME-&gt;&gt;EXP: Implements experiment
+    EXP-&gt;&gt;REV: Messy research code
+    Note over REV: Slow review, fixing, debugging
+    REV--&gt;&gt;SME: Rework requests
+    REV--&gt;&gt;ENG: Untangle and rewrite
+    EXP--&gt;&gt;EXP: Domain insights lost in prints
+    ENG-&gt;&gt;ENG: Fixes the same issues again, no compounding</pre>
+        </div>
+        <p>This is the default mode. Write code first, correct if required.</p>
+      </section>
+
+      <!-- =============================================================== -->
+      <!-- SLIDE 17: Audit — Success scenario                              -->
+      <!-- =============================================================== -->
+      <section class="slide" data-slide="17" data-section="Audit">
+        <h2>Success scenario</h2>
+        <div class="mermaid-wrap">
+          <pre class="mermaid">sequenceDiagram
+    actor ENG as Engineer
+    box SME context
+        actor SME
+        participant EXP as Experiment implementation&lt;br/&gt;(standards applied)
+    end
+    participant REV as Review
+
+    ENG-&gt;&gt;EXP: Defines standards before prototyping&lt;br/&gt;(logger, project structure, abstract classes, typing)
+    SME-&gt;&gt;EXP: Implements experiment, standards enforced by default&lt;br/&gt;(logger instead of print)
+    EXP-&gt;&gt;REV: Production ready code
+    Note over REV: Faster review, no cleanup
+    EXP--&gt;&gt;EXP: Domain insights
+    ENG-&gt;&gt;ENG: Improves standards</pre>
+        </div>
+        <p>Code is written in alignment with team standards. SMEs who do not care as much about coding can benefit from the abstractions and tooling without learning every detail by heart.</p>
+        <p>A researcher aiming to obtain experiment results can be viewed as an SME. We can apply the same rule to research projects: instrument the codebase beforehand, accelerate research and development, and avoid paying the cost later on right before a conference submission.</p>
+      </section>
+
+      <!-- =============================================================== -->
+      <!-- SLIDE 18: Audit — Step 1: List your conventions                 -->
+      <!-- =============================================================== -->
+      <section class="slide" data-slide="18" data-section="Audit">
+        <h2>Step 1: List your conventions</h2>
+        <p>This step is often a bottleneck because conventions are not yet defined.</p>
+        <h3>What are the repeatable steps in almost every research repository?</h3>
+        <ul>
+          <li>Research lab standard: repository setup.</li>
+          <li>Justifying each design choice (a research log). Record every experiment: goal, hypothesis, method, results, analysis, and next steps, including failures.</li>
+          <li>Code audit before release: removing unused experiments, dead comments, and duplicated code.</li>
+          <li>Code, dataset, model, and paper release. Doing this manually incurs a recurring time cost; automation is a one-time cost.</li>
+          <li>Creating a demo on Hugging Face or a research project website (using templates like <a href="https://github.com/eliahuhorwitz/Academic-project-page-template" target="_blank" rel="noopener noreferrer">this academic project page template</a> as a baseline).</li>
+        </ul>
+        <h3>Anti-patterns specific to research repositories</h3>
+        <ul>
+          <li>Missing requirements.txt or lock file, with an unspecified Python version.</li>
+          <li>Duplicated code (to reduce it, enforce the rule: <em>use, don’t reimplement</em>), often due to missing or insufficient abstractions.</li>
+          <li>Overused type hints.</li>
+          <li>Stale notebooks that are no longer relevant to ongoing development.</li>
+          <li>Dead code.</li>
+          <li>Test files scattered across source code modules.</li>
+          <li>Flat project structure (avoiding moving modules like <code>models/</code>, <code>pipeline/</code>, <code>utils/</code>, etc. to <code>src/</code>).</li>
+          <li>Outdated README or documentation.</li>
+        </ul>
+        <p>Some of these anti-patterns were a necessary evil in rapid research prototypes. Agents can now maintain them smoothly, provided standards are defined.</p>
+      </section>
+
+      <!-- =============================================================== -->
+      <!-- SLIDE 19: Audit — Step 2 & Step 3                               -->
+      <!-- =============================================================== -->
+      <section class="slide" data-slide="19" data-section="Audit">
+        <h2>Step 2: Classify each convention item</h2>
+        <p>Once existing conventions are listed, classify them. Where do they come from? Are there existing artifacts that we can reuse? Do we need to codify word-of-mouth knowledge first?</p>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Location</th>
+                <th>Meaning</th>
+                <th>Agent visibility</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>In heads</td><td>Known by team members, never written down</td><td>Completely invisible</td></tr>
+              <tr><td>In code</td><td>Expressed in types, naming, structure</td><td>Visible if in context window</td></tr>
+              <tr><td>In literature</td><td>Preexisting papers, datasets, models, terminology that may impact our research</td><td>Invisible unless explicitly loaded</td></tr>
+              <tr><td>Lab/conference guidelines or reviewer feedback</td><td>Implicit conventions, known by lab members or documented outside the repository</td><td>Invisible unless explicitly loaded</td></tr>
+              <tr><td>In data / experiment tracking tools</td><td>Formats, sources, targets, and schemas</td><td>Invisible unless explicitly loaded</td></tr>
+              <tr><td>In docs</td><td>Repository documentation or external guides (e.g., Athena cluster docs)</td><td>Invisible unless explicitly loaded</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h2>Step 3: Rank by failure cost</h2>
+        <ul>
+          <li><strong>Critical:</strong> Blocks experiment progress, slows down collaboration between team members, makes debugging harder, and slows iterations. Completed experiments cannot be justified without repeating the entire reasoning process to understand why they were run. Data leakage, silent non-determinism, and broken train/test splits.</li>
+          <li><strong>High:</strong> Leads to reproducibility issues for other researchers. Notebook sprawl, duplicated experiment code, and bloated repositories (burning tokens due to exploding repository size).</li>
+          <li><strong>Medium:</strong> Running additional experiments after review taxes the team by requiring a return to a messy codebase.</li>
+          <li><strong>Low:</strong> Style preferences that do not affect correctness.</li>
+        </ul>
+        <p>Issues common in enterprise software (such as technical debt, security vulnerabilities, and production outages) are rarely the primary concern for typical research repositories.</p>
+      </section>
+
+      <!-- =============================================================== -->
+      <!-- SLIDE 20: Audit — Step 4 & Step 5                               -->
+      <!-- =============================================================== -->
+      <section class="slide" data-slide="20" data-section="Audit">
+        <h2>Step 4: Map each item to a primitive type</h2>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>If the knowledge...</th>
+                <th>It belongs in...</th>
+                <th>Concrete research example</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>Is a rule scoped to specific files/directories</td><td>An instruction file</td><td>Jupyter notebook conventions</td></tr>
+              <tr><td>Requires specialist expertise or a specific model</td><td>An agent configuration</td><td>Stronger model for experiment design, cheaper model for implementation</td></tr>
+              <tr><td>Applies across files and needs a decision framework</td><td>A skill</td><td>Implementing a new model for evaluation</td></tr>
+              <tr><td>Defines a repeatable multi-step process</td><td>A prompt</td><td>Releasing code, models, datasets, or packages</td></tr>
+              <tr><td>Records a decision, trade-off, or historical fact</td><td>A memory file</td><td>Design decision justifications, research log</td></tr>
+              <tr><td>Specifies a feature with components and success criteria</td><td>A specification</td><td>Experiment plan</td></tr>
+              <tr><td>Defines an automated response to a development event</td><td>A hook</td><td>Automated paper, model, or dataset release</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h2>Step 5: Write your starter set</h2>
+        <p>Implement the first primitive. Start small and add primitives gradually.</p>
+      </section>
+
+      <!-- =============================================================== -->
+      <!-- SLIDE 21: Resources — Further Resources                         -->
+      <!-- =============================================================== -->
+      <section class="slide" data-slide="21" data-section="Resources">
+        <h2>The end! Attribution, further resources and next steps...</h2>
+        <p>That was it! Thank you for participating in the workshops.</p>
+        <p>In this section we list the sources used in this tutorial as well as further steps that might interest you. We hope you have enjoyed the workshops, <a href="https://forms.gle/xUe8CHN46SYx8ow77" target="_blank" rel="noopener noreferrer"><strong>please consider to provide feedback</strong> via the form</a></p>
+        <p>This workshops were inspired by the great book <a href="https://danielmeppiel.github.io/agentic-sdlc-handbook/" target="_blank" rel="noopener noreferrer">Agentic SDLC</a> by Daniel Meppiel.</p>
+        <p>Did we miss anything cool in this list? Feel free to open an issue!</p>
+        <ul>
+          <li><a href="https://github.com/microsoft/apm" target="_blank" rel="noopener noreferrer">APM</a> (Agentic Package Manager). We really recommend to check out the author's <a href="https://github.com/danielmeppiel" target="_blank" rel="noopener noreferrer">Daniel Meppiel</a> and maintainer's <a href="https://github.com/sergio-sisternes-epam" target="_blank" rel="noopener noreferrer">Serio Sisternes</a> GitHub profiles.</li>
+          <li><a href="https://danielmeppiel.github.io/agentic-sdlc-handbook/" target="_blank" rel="noopener noreferrer">Agentic Software Development Life Cycle</a> Handbook</li>
+          <li><a href="https://github.com/microsoft/waza" target="_blank" rel="noopener noreferrer">waza</a> tool for benchmarking skills.</li>
+          <li>Tools for cleaning so called dead code: <a href="https://github.com/duriantaco/skylos" target="_blank" rel="noopener noreferrer">skylos</a>, <a href="https://github.com/jendrikseipp/vulture" target="_blank" rel="noopener noreferrer">vulture</a> and other.</li>
+          <li><a href="https://github.com/github/gh-aw" target="_blank" rel="noopener noreferrer">gh-aw</a>: github agentic workflows, it is basically github actions but for agents.</li>
+        </ul>
+        <h4>Genesis</h4>
+        <ul>
+          <li>Genesis <a href="https://danielmeppiel.github.io/genesis/reference/patterns/" target="_blank" rel="noopener noreferrer">design patterns catalogue</a>.</li>
+          <li>It is wrapped into a <a href="https://github.com/danielmeppiel/genesis" target="_blank" rel="noopener noreferrer">skill</a> that helps with desingning your agentic primitives.
+            <ul>
+              <li>Hint 1: Read the catalogue first, the skill uses a lot of jargon. You will benefit way more if you are familiarized with the concepts before using it.</li>
+              <li>Hint 2: Ask directly for using APM.</li>
+            </ul>
+          </li>
+        </ul>
+      </section>
+
+      <!-- =============================================================== -->
+      <!-- SLIDE 22: Goodbye — Darmstadt Weihnachtsmarkt                   -->
+      <!-- =============================================================== -->
+      <section class="slide slide-goodbye" data-slide="22" data-section="Goodbye">
+        <div class="snow-layer" aria-hidden="true">
+          <span class="snowflake">❄</span>
+          <span class="snowflake">❅</span>
+          <span class="snowflake">❆</span>
+          <span class="snowflake">❄</span>
+          <span class="snowflake">❅</span>
+          <span class="snowflake">❆</span>
+          <span class="snowflake">❄</span>
+          <span class="snowflake">❅</span>
+          <span class="snowflake">❆</span>
+          <span class="snowflake">❄</span>
+          <span class="snowflake">❅</span>
+          <span class="snowflake">❆</span>
+        </div>
+
+        <div class="goodbye-content">
+          <h2>Thank you for joining the workshops</h2>
+          <div class="goodbye-invite-box">
+            <p>
+              If you are around, come join me at the Darmstadt Weihnachtsmarkt to spend some time together and discuss both technical and non-technical stuff in a more relaxed atmosphere.
+            </p>
+          </div>
+          <div class="goodbye-feedback-box">
+            <p>
+              Enjoyed the session? <a href="https://forms.gle/xUe8CHN46SYx8ow77" target="_blank" rel="noopener noreferrer">Share your feedback via the form</a>
+            </p>
+          </div>
+          <p class="goodbye-signoff">
+            Warm winter wishes, <span>Jan</span>
+          </p>
+        </div>
+      </section>
+
+    </main>
+
+    <footer class="deck-footer">
+      <div class="nav-arrows">
+        <button type="button" class="sketch-btn" id="prev-btn">← Prev</button>
+        <button type="button" class="sketch-btn" id="next-btn">Next →</button>
+      </div>
+      <nav class="section-jumps" aria-label="Deck sections">
+        <button type="button" class="sketch-btn section-jump" data-jump="1" data-section-name="Intro">Intro</button>
+        <button type="button" class="sketch-btn section-jump" data-jump="2" data-section-name="Package Org">Package Org</button>
+        <button type="button" class="sketch-btn section-jump" data-jump="10" data-section-name="Design Patterns">Design Patterns</button>
+        <button type="button" class="sketch-btn section-jump" data-jump="16" data-section-name="Audit">Audit</button>
+        <button type="button" class="sketch-btn section-jump" data-jump="21" data-section-name="Resources">Resources</button>
+        <button type="button" class="sketch-btn section-jump" data-jump="22" data-section-name="Goodbye">Goodbye</button>
+      </nav>
+    </footer>
+
+  </div>
+
+  <script type="module">
+    const slides = Array.from(document.querySelectorAll('.slide'));
+    const slideCard = document.getElementById('slide-card');
+    const slideCounter = document.getElementById('slide-counter');
+    const sectionPill = document.getElementById('section-pill');
+    const offlineNotice = document.getElementById('offline-notice');
+    const prevBtn = document.getElementById('prev-btn');
+    const nextBtn = document.getElementById('next-btn');
+    const sectionJumps = Array.from(document.querySelectorAll('.section-jump'));
+
+    let currentIndex = 0;
+    let mermaidApi = null;
+
+    function parseHash() {
+      const match = /^#slide-(\d+)$/.exec(window.location.hash);
+      if (!match) return 1;
+      const parsed = Number.parseInt(match[1], 10);
+      if (!Number.isFinite(parsed) || parsed < 1) return 1;
+      if (parsed > slides.length) return slides.length;
+      return parsed;
+    }
+
+    async function renderActiveSlideDiagrams() {
+      if (!mermaidApi) return;
+      const activeSlide = slides[currentIndex];
+      if (!activeSlide) return;
+      const nodes = Array.from(
+        activeSlide.querySelectorAll('.mermaid:not([data-rendered]):not([data-rendering])')
+      );
+      if (nodes.length === 0) return;
+
+      nodes.forEach((node) => {
+        node.dataset.rendering = 'true';
+      });
+      try {
+        await mermaidApi.run({ nodes });
+        nodes.forEach((node) => {
+          node.dataset.rendered = 'true';
+        });
+      } catch (err) {
+        console.error('Mermaid render error:', err);
+      } finally {
+        nodes.forEach((node) => {
+          delete node.dataset.rendering;
+        });
+      }
+    }
+
+    function showSlide(index, updateHash = true) {
+      const clamped = Math.max(0, Math.min(slides.length - 1, index));
+      currentIndex = clamped;
+
+      slides.forEach((slide, i) => {
+        slide.classList.toggle('active', i === currentIndex);
+      });
+
+      const activeSlide = slides[currentIndex];
+      const activeSection = activeSlide.dataset.section || '';
+
+      slideCounter.textContent = `${currentIndex + 1} / ${slides.length}`;
+      sectionPill.textContent = activeSection;
+
+      prevBtn.disabled = currentIndex === 0;
+      nextBtn.disabled = currentIndex === slides.length - 1;
+
+      sectionJumps.forEach((btn) => {
+        if (btn.dataset.sectionName === activeSection) {
+          btn.setAttribute('aria-current', 'true');
+        } else {
+          btn.removeAttribute('aria-current');
+        }
+      });
+
+      if (updateHash) {
+        history.replaceState(null, '', `#slide-${currentIndex + 1}`);
+      }
+
+      slideCard.scrollTop = 0;
+      renderActiveSlideDiagrams();
+    }
+
+    prevBtn.addEventListener('click', () => showSlide(currentIndex - 1));
+    nextBtn.addEventListener('click', () => showSlide(currentIndex + 1));
+
+    sectionJumps.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const targetSlide = Number.parseInt(btn.dataset.jump, 10);
+        if (Number.isFinite(targetSlide)) {
+          showSlide(targetSlide - 1);
+        }
+      });
+    });
+
+    window.addEventListener('hashchange', () => {
+      showSlide(parseHash() - 1, false);
+    });
+
+    window.addEventListener('keydown', (event) => {
+      if (event.ctrlKey || event.metaKey || event.altKey) return;
+      if (event.target && event.target.closest('input, textarea, select, [contenteditable="true"]')) return;
+
+      if (event.key === 'ArrowRight' || event.key === 'PageDown') {
+        event.preventDefault();
+        showSlide(currentIndex + 1);
+      } else if (event.key === 'ArrowLeft' || event.key === 'PageUp') {
+        event.preventDefault();
+        showSlide(currentIndex - 1);
+      } else if (event.key === 'Home') {
+        event.preventDefault();
+        showSlide(0);
+      } else if (event.key === 'End') {
+        event.preventDefault();
+        showSlide(slides.length - 1);
+      }
+    });
+
+    async function loadMermaid() {
+      try {
+        let mod;
+        try {
+          mod = await import('https://cdn.jsdelivr.net/npm/mermaid@11.12.0/dist/mermaid.esm.min.mjs');
+        } catch {
+          mod = await import('https://unpkg.com/mermaid@11.12.0/dist/mermaid.esm.min.mjs');
+        }
+        mermaidApi = mod.default;
+        mermaidApi.initialize({
+          startOnLoad: false,
+          securityLevel: 'strict',
+          look: 'handDrawn',
+          theme: 'base',
+          themeVariables: {
+            primaryColor: '#fff9db',
+            primaryBorderColor: '#1a1a1a',
+            primaryTextColor: '#1a1a1a',
+            lineColor: '#1a1a1a',
+            secondaryColor: '#fee2e2',
+            tertiaryColor: '#fbf9f4',
+            fontFamily: 'Patrick Hand, cursive, sans-serif'
+          }
+        });
+        await renderActiveSlideDiagrams();
+      } catch {
+        offlineNotice.classList.add('visible');
+      }
+    }
+
+    function init() {
+      showSlide(parseHash() - 1);
+      loadMermaid();
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', init);
+    } else {
+      init();
+    }
+  </script>
+</body>
+
+</html>
